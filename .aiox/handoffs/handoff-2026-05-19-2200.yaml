@@ -1,0 +1,46 @@
+session_date: "2026-05-19T22:00:00"
+project: legaltech-research
+agent: aiox-master (Orion)
+branch: main
+
+stories_active: []
+
+decisions:
+  - "Projeto legaltech-research será o centro de pesquisa estratégica — não só pesquisa jurídica"
+  - "Criado o RILP (Research Intelligence & Launch Protocol) — protocolo domain-agnostic de 8 pilares"
+  - "Protocolo vai de tese/antítese até operacionalização completa com squads de IA"
+  - "Run #1 será LegalTech. Após 2 domínios completos, extrair o core genérico (alerta da Aria)"
+  - "Repositório criado como público: github.com/MarcoBolsa/legaltech-research"
+  - "Squads dos outros projetos (juridico, bcotas-2026) serão integrados a este time"
+
+files_modified:
+  - PROTOCOLO.md (criado — fluxo A-Z com 8 pilares, mapas mentais Mermaid coloridos)
+  - README.md (existia — mantido)
+  - pesquisas/gemini/.gitkeep
+  - pesquisas/perplexity/.gitkeep
+  - pesquisas/outros/.gitkeep
+  - sintese/.gitkeep
+  - output/.gitkeep
+  - runs/.gitkeep
+
+blockers: []
+
+next_step: |
+  Criar estrutura de pastas runs/run-001-legaltech/ com MANIFEST.yaml e domain-pack.yaml,
+  depois iniciar PILAR 0 com @analyst — formulação da tese e antítese sobre LegalTech no Brasil.
+
+resume_prompt: |
+  Estou no projeto legaltech-research (~/projetos/legaltech-research).
+  Ativar: /AIOX:agents:aiox-master
+
+  Contexto da sessão anterior (2026-05-19):
+  - Criamos o RILP (Research Intelligence & Launch Protocol) — protocolo domain-agnostic de 8 pilares
+  - Pilares: Epistemologia → Inteligência de Mercado → Síntese → Design Operacional → Modelo de Negócio → GTM → Brand+Plataforma → Lançamento → Operacionalização
+  - PROTOCOLO.md está no repo com fluxo completo em Mermaid
+  - Repo publicado: github.com/MarcoBolsa/legaltech-research
+  - Squads disponíveis: deep-research (11 agentes), brand (7), seo (8), apex, kaizen, curator, dispatch, legal-analyst + chiefs: copy-chief, traffic-masters-chief, design-chief, story-chief
+
+  PRÓXIMO PASSO:
+  1. Criar runs/run-001-legaltech/ com MANIFEST.yaml e domain-pack.yaml
+  2. Iniciar PILAR 0 com @analyst — formulação da tese e antítese sobre LegalTech no Brasil
+  3. Depois ativar deep-research para PILAR 1 (7 camadas de pesquisa em paralelo)
