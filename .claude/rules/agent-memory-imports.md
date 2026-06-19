@@ -1,12 +1,15 @@
 ---
-paths:
-  - ".aiox-herdada-stub-nunca-casa/**"
+paths: .aiox-core/development/agents/**
 ---
 
-# agent-memory-imports — herdada por cascata (stub)
+# Agent Memory Imports
 
-> **Conteúdo canônico:** `/root/projetos/.claude/rules/agent-memory-imports.md` (diretório-pai),
-> carregado automaticamente pelo Claude Code em toda sessão sob `/root/projetos/**`.
-> Cópia local removida para não duplicar o conteúdo 2x/sessão (decisão **D18** — de-dup AIOX).
-> Stub mantido só para resolver referências a este path e satisfazer o doctor. O `paths:`
-> acima quase nunca casa, então este stub não ocupa contexto.
+Each AIOX agent has a canonical MEMORY.md containing persistent knowledge.
+These are the canonical locations — agents should read their memory on activation.
+
+@import .aiox-core/development/agents/dev/MEMORY.md
+@import .aiox-core/development/agents/qa/MEMORY.md
+@import .aiox-core/development/agents/architect/MEMORY.md
+@import .aiox-core/development/agents/devops/MEMORY.md
+@import .aiox-core/development/agents/pm/MEMORY.md
+@import .aiox-core/development/agents/po/MEMORY.md
