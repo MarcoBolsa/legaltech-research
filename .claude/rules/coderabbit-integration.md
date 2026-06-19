@@ -1,101 +1,12 @@
 ---
 paths:
-  - ".aiox-core/**"
-  - "tests/**"
-  - "packages/**"
-  - "bin/**"
+  - ".aiox-herdada-stub-nunca-casa/**"
 ---
 
-# CodeRabbit Integration — Detailed Rules
+# coderabbit-integration — herdada por cascata (stub)
 
-## Self-Healing Configuration
-
-### Dev Phase (@dev — Story Development Cycle Phase 3)
-
-```yaml
-mode: light
-max_iterations: 2
-timeout_minutes: 30
-severity_filter: [CRITICAL, HIGH]
-behavior:
-  CRITICAL: auto_fix
-  HIGH: auto_fix (iteration < 2) else document_as_debt
-  MEDIUM: document_as_debt
-  LOW: ignore
-```
-
-**Flow:**
-```
-RUN CodeRabbit → CRITICAL found?
-  YES → auto-fix (iteration < 2) → Re-run
-  NO → Document HIGH as debt, proceed
-After 2 iterations with CRITICAL → HALT, manual intervention
-```
-
-### QA Phase (@qa — QA Loop Pre-Review)
-
-```yaml
-mode: full
-max_iterations: 3
-timeout_minutes: 30
-severity_filter: [CRITICAL, HIGH]
-behavior:
-  CRITICAL: auto_fix
-  HIGH: auto_fix
-  MEDIUM: document_as_debt
-  LOW: ignore
-```
-
-**Flow:**
-1. Pre-commit review scan
-2. Self-healing loop (max 3 iterations)
-3. Manual QA analysis (architectural, traceability, NFR)
-4. Gate decision (verdict)
-
-## Severity Handling Summary
-
-| Severity | Dev Phase | QA Phase |
-|----------|-----------|----------|
-| CRITICAL | auto_fix, block if persists | auto_fix, block if persists |
-| HIGH | auto_fix, document if fails | auto_fix, document if fails |
-| MEDIUM | document_as_tech_debt | document_as_tech_debt |
-| LOW | ignore | ignore |
-
-## WSL Execution (Windows)
-
-```bash
-# Self-healing mode (automatic in dev tasks)
-wsl bash -c 'cd /mnt/c/.../aiox-core && ~/.local/bin/coderabbit --severity CRITICAL,HIGH --auto-fix'
-
-# Manual review
-wsl bash -c 'cd /mnt/c/.../aiox-core && ~/.local/bin/coderabbit -t uncommitted'
-
-# Prompt-only mode
-wsl bash -c 'cd /mnt/c/.../aiox-core && ~/.local/bin/coderabbit --prompt-only -t uncommitted'
-```
-
-## Integration Points
-
-| Workflow | Phase | Trigger | Agent |
-|----------|-------|---------|-------|
-| Story Development Cycle | 3 (Implement) | After task completion | @dev |
-| QA Loop | 1 (Review) | At review start | @qa |
-| Standalone | Any | `*coderabbit-review` command | Any |
-
-## Focus Areas by Story Type
-
-| Story Type | Primary Focus |
-|-----------|--------------|
-| Feature | Code patterns, test coverage, API design |
-| Bug Fix | Regression risk, root cause coverage |
-| Refactor | Breaking changes, interface stability |
-| Documentation | Markdown quality, reference validity |
-| Database | SQL injection, RLS coverage, migration safety |
-
-## Report Location
-
-CodeRabbit reports saved to: `docs/qa/coderabbit-reports/`
-
-## Configuration Reference
-
-Full config in `.aiox-core/core-config.yaml` under `coderabbit_integration` section.
+> **Conteúdo canônico:** `/root/projetos/.claude/rules/coderabbit-integration.md` (diretório-pai),
+> carregado automaticamente pelo Claude Code em toda sessão sob `/root/projetos/**`.
+> Cópia local removida para não duplicar o conteúdo 2x/sessão (decisão **D18** — de-dup AIOX).
+> Stub mantido só para resolver referências a este path e satisfazer o doctor. O `paths:`
+> acima quase nunca casa, então este stub não ocupa contexto.
