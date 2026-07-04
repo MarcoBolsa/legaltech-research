@@ -64,3 +64,22 @@
 **Consequências:**
 - Congelamento de doutrina: nenhuma edição em RILP-v2/blueprint além das 5 correções da Fase A até o Run #0 produzir output.
 - Critério de kill vigente (ver PLANO-YOLO-RUN000.md) — se o output não superar visivelmente o baseline, RILP-9-pilares é descontinuado como produto e vira ferramenta interna P0→P2.
+## [2026-07-04] — Fase C entregue: RILP Engine em Python (score/gates/benchmark/domain-pack executáveis)
+
+**Contexto:** Marco liberou a Fase C do plano congelado (`PLANO-YOLO-RUN000.md`) após ler o resultado do Run #0. O run provou que a vantagem competitiva do RILP sobre deep research nativo é **auditabilidade + honestidade epistêmica recomputáveis** (comparacao.md: B vence em auditabilidade 9,5×6,0 porque "um terceiro consegue recalcular o veredito"). A Fase C materializa isso em código.
+
+**Decisão (stack):** Implementar o RILP Engine em **Python 3.12 + pydantic 2 + pyyaml + pytest + ruff** (todos já no ambiente). Fundamento: a Fase C é processamento de YAML estruturado + validação de schema + cálculo auditável; pydantic dá exatamente o "claims como dados com trilha de auditoria" que o kill criterion recompensou. Greenfield de código (não havia stack de app no repo). Alternativa Node/TS descartada — o AIOX é Node, mas este projeto de research é isolado e não consome o runtime AIOX; Python tem menor cerimônia para o domínio de data/scoring.
+
+**Decisão (arquitetura):** O engine é um **harness de validação/orquestração determinístico**, NÃO um pipeline que chama LLM. A pesquisa (P0/P1/P2) segue sendo trabalho de agentes; o engine valida, pontua e audita os artefatos. Módulos: `models.py` (contrato pydantic), `scoring.py` (score do run + gate G2→3 + trilha de auditoria), `domain_pack.py` (schema acumulável 2-estágios + builder), `benchmark.py` (rubrica RILP×baseline + kill check), `runner.py`+`cli.py` (Run Mínimo Viável P0→P2). Entregue em 4 levas com model routing §32 (Opus contrato/integração/QA · Sonnet frentes paralelas).
+
+**Distinção arquitetural registrada (o que o Run #0 revelou):** Gate G2→3 (bloqueador de AVANÇO a P3: score≥70 E nenhum decisório em Baixo) e Kill criterion (decide se o PROTOCOLO morre: vale R$500 E vence baseline) são **ortogonais**. No Run #0: gate FAIL (63,4%, C5b/C6 em Baixo → não avança sem dado de campo) MAS kill não disparado (protocolo válido → CONTINUE). O engine modela os dois como campos separados; não os colapsa.
+
+**Consequências:**
+- `engine/` é o código canônico do RILP daqui em diante; 69 testes verdes, ruff limpo; e2e reproduz o Run #0 (63,4% / FAIL / CONTINUE).
+- `domain-packs/legaltech-v1.yaml` (pack parcial, n_runs=1) gerado dos artefatos reais.
+- QA adversarial corrigiu 1 bug HIGH de ponto-flutuante que quebrava o determinismo do benchmark (mascarado na 1ª suíte).
+- **Dívida técnica p/ decisão de Marco:** (1) piso do gate usa Score arredondado (69,95→70,0 passa) — confirmar se piso é arredondado ou estrito; (2) adicionar `pytest-cov` ao CI para cobertura auditável (@devops).
+
+**Alternativas descartadas:** Node/TS (isolamento do projeto vence o alinhamento com AIOX); pipeline com chamadas de LLM embutidas (violaria §28 anti-gold-plating — a pesquisa é dos agentes, não do engine).
+
+---

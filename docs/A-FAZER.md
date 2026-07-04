@@ -4,16 +4,16 @@
 > Atualizado ao final de cada sessão: o que foi feito, o que falta (em prioridade) e o que entrou de novo.
 > Não duplica os docs vivos do projeto — **referencia**.
 
-**Última atualização:** 2026-07-04 · @orion (plano YOLO Run #0 congelado)
+**Última atualização:** 2026-07-04 · @orion (Fase C entregue — RILP Engine em Python, 69 testes verdes)
 **Legenda prioridade:** 🔴 P0 (urgente/bloqueia) · 🟡 P1 (importante, esta semana) · 🟢 P2 (quando der)
 
 ---
 
 ## 🔥 ATACAR AGORA (topo da pilha — máx. 3)
 
-1. 🔴 **Marco lê o resultado do Run #0** — [comparacao.md](https://github.com/MarcoBolsa/legaltech-research/blob/run-000-legaltech/runs/run-000-legaltech/comparacao.md) + [sintese-estrategica.md](https://github.com/MarcoBolsa/legaltech-research/blob/run-000-legaltech/runs/run-000-legaltech/p2/sintese-estrategica.md) — RILP venceu o baseline (diferença clara), kill NÃO disparado
-2. 🔴 **Marco decide Fase C** (programação: score engine + benchmark harness primeiro) · [PLANO-YOLO-RUN000.md](https://github.com/MarcoBolsa/legaltech-research/blob/run-000-legaltech/docs/PLANO-YOLO-RUN000.md) · recomendação: liberar
-3. 🟡 **Experimentos de campo H2 (economia) + H5 (canal)** — o gate G2→3 reprovou por falta de dado primário; entrada em legaltech é condicional a eles
+1. 🔴 **Marco revisa o RILP Engine da Fase C** — [engine/](https://github.com/MarcoBolsa/legaltech-research/tree/run-000-legaltech/engine) (score/gates/benchmark/domain-pack executáveis, `rilp run` reproduz o Run #0) + [FASE-C-SPEC.md](https://github.com/MarcoBolsa/legaltech-research/blob/run-000-legaltech/docs/FASE-C-SPEC.md) · 2 decisões pendentes: piso do gate arredondado vs estrito; adicionar `pytest-cov` ao CI
+2. 🔴 **Experimentos de campo H2 (economia) + H5 (canal)** — o gate G2→3 reprovou por falta de dado primário; entrada em legaltech é condicional a eles (o único caminho que muda o veredito 63,4%)
+3. 🟡 **Decidir consolidação para `main`** — 4 commits da Fase C + branch `refundacao/` pendente; abrir PR quando Marco validar o engine
 
 ---
 

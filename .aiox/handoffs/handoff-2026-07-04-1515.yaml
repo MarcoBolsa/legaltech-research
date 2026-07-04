@@ -44,3 +44,5 @@ resume_prompt: |
   engine + benchmark harness primeiro). Minha decisão é: [LIBERAR / AJUSTAR / NÃO LIBERAR].
   Se liberar: seguir YOLO conforme Fase C do plano congelado, commit por leva, sem me parar fora das
   5 paradas legítimas.
+
+consumed: true
