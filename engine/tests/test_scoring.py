@@ -215,3 +215,134 @@ def test_aceitacao_run000_artefato_integro():
     """O claims.yaml real deve ser internamente consistente (pontos = âncora)."""
     doc = ClaimsDoc.from_yaml(REAL_CLAIMS)
     assert validate_consistency(doc) == []
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ENDURECIMENTO ADVERSARIAL (leva 4) — edge cases de cálculo/gate
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+def test_peso_ausente_assume_default_contextual():
+    """Contrato canônico (spec + docstring): peso omitido = CONTEXTUAL (1).
+
+    Regressão do bug: o campo não tinha default e um claims.yaml sem peso
+    quebrava com ValidationError, contradizendo o contrato documentado.
+    """
+    c = Claim(id="X", bucket=Bucket.ALTO, pontos=90)
+    assert c.peso == Peso.CONTEXTUAL.value == 1
+    assert c.decisorio is False
+    assert c.produto == 90  # 90 × 1
+
+
+def test_peso_fora_de_faixa_e_rejeitado():
+    """peso deve ficar em 1..3 — valores 0 ou 4 são rejeitados na validação."""
+    import pytest
+    from pydantic import ValidationError
+
+    for peso_invalido in (0, 4, -1):
+        with pytest.raises(ValidationError):
+            Claim(id="X", bucket=Bucket.ALTO, pontos=90, peso=peso_invalido)
+
+
+def test_compute_score_usa_pontos_declarados_nao_ancora():
+    """Determinismo: o score usa os `pontos` DECLARADOS, não o âncora do bucket.
+
+    Claim marcado bucket=Alto mas pontos=25 contribui 25×peso — validate_consistency
+    apenas AVISA da divergência; o cálculo respeita o declarado (contrato spec).
+    """
+    doc = ClaimsDoc(claims=[Claim(id="C1", bucket=Bucket.ALTO, pontos=25, peso=2)])
+    result = compute_score(doc)
+    assert result.soma_produtos == 50  # 25 × 2, não 90 × 2
+    assert result.score_percent == 25.0
+    warns = validate_consistency(doc)
+    assert len(warns) == 1 and "C1" in warns[0]
+
+
+def test_gate_score_exatamente_70_passa():
+    """Knife-edge: Score == 70.0 satisfaz cond1 (>= 70), não > 70."""
+    # 2 claims peso 1: Alto(90) + declarado 50 → 140 ÷ 2 = 70.0
+    doc = ClaimsDoc(
+        claims=[
+            _claim("A1", Bucket.ALTO, peso=1),
+            Claim(id="X1", bucket=Bucket.MEDIO, pontos=50, peso=1),
+        ]
+    )
+    score = compute_score(doc)
+    assert score.score_percent == 70.0
+    gate = check_gate(doc, score)
+    assert gate.cond1_score_ge_70 is True
+    assert gate.resultado == "PASS"
+
+
+def test_gate_fail_por_cond1_mesmo_com_todos_decisorios_alto():
+    """cond1 sozinha reprova: decisórios todos em Alto, mas média < 70."""
+    # Alto(90)×3 decisório = 270; Baixo(25)×3 = 75 → (270+75)/(3+3)? não.
+    # Queremos score < 70 sem nenhum decisório em Baixo:
+    doc = ClaimsDoc(
+        claims=[
+            _claim("D1", Bucket.ALTO, peso=3),  # decisório Alto
+            _claim("B1", Bucket.BAIXO, peso=1),
+            _claim("B2", Bucket.BAIXO, peso=1),
+            _claim("B3", Bucket.BAIXO, peso=1),
+            _claim("B4", Bucket.BAIXO, peso=1),
+            _claim("B5", Bucket.BAIXO, peso=1),
+        ]
+    )
+    score = compute_score(doc)
+    assert score.score_percent < 70
+    gate = check_gate(doc, score)
+    assert gate.cond1_score_ge_70 is False
+    assert gate.cond2_no_decisorio_baixo is True  # nenhum decisório em Baixo
+    assert gate.resultado == "FAIL"  # reprova SÓ por cond1
+    assert gate.decisorios_em_baixo == []
+
+
+def test_gate_avalia_score_arredondado_documenta_knife_edge():
+    """DOCUMENTADO (dívida técnica): o gate usa o Score ARREDONDADO/auditável.
+
+    Σproduto=1399, Σpeso=20 → raw 69.95 (< 70 matematicamente), mas o Score
+    exibido/auditado é round(69.95, 1) = 70.0, então o gate PASSA. É a mesma
+    conta que um terceiro vê — auditável — mas um humano deve confirmar que 70
+    é um piso arredondado, não estrito. Ver relatório de QA (leva 4).
+    """
+    claims = [Claim(id="c0", bucket=Bucket.ALTO, pontos=1399, peso=1)]
+    claims += [Claim(id=f"c{i}", bucket=Bucket.BAIXO, pontos=0, peso=1) for i in range(1, 20)]
+    doc = ClaimsDoc(claims=claims)
+    score = compute_score(doc)
+    assert score.soma_produtos == 1399
+    assert score.soma_pesos == 20
+    assert 1399 / 20 == 69.95  # raw < 70
+    assert score.score_percent == 70.0  # exibido = arredondado
+    gate = check_gate(doc, score)
+    assert gate.cond1_score_ge_70 is True  # gate no valor exibido → PASS
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# META-TESTE DE AUDITABILIDADE — o diferencial de produto do RILP
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+def test_auditabilidade_terceiro_recomputa_veredito_do_run000():
+    """Prova o claim central de marketing: um TERCEIRO recomputa o veredito.
+
+    A 'conta inteira' (Σprodutos=1585, Σpesos=25, Score=63.4 = 1585 ÷ 25) e o
+    veredito FAIL com os decisórios C5b/C6 estão TODOS presentes e corretos no
+    texto do audit_trail — sem precisar rodar o motor de novo (comparacao.md §2).
+    """
+    doc = ClaimsDoc.from_yaml(REAL_CLAIMS)
+    trilha = audit_trail(doc)
+
+    # A conta exposta na trilha, verificável a olho:
+    assert "1585" in trilha  # Σ produtos
+    assert "25" in trilha  # Σ pesos
+    assert "63.4" in trilha  # Score
+    assert "1585 ÷ 25" in trilha  # a divisão explícita
+    assert "63.4%" in trilha
+
+    # O veredito e os claims decisórios reprovados aparecem por extenso:
+    assert "FAIL" in trilha
+    assert "C5b" in trilha and "C6" in trilha
+
+    # E os números batem com o cálculo independente:
+    score = compute_score(doc)
+    assert f"{score.soma_produtos} ÷ {score.soma_pesos} = {score.score_percent}%" in trilha

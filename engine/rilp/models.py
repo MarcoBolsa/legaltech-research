@@ -74,7 +74,7 @@ class Claim(BaseModel):
     verdict: str = ""
     bucket: Bucket
     pontos: int
-    peso: int = Field(ge=1, le=3)
+    peso: int = Field(default=Peso.CONTEXTUAL.value, ge=1, le=3)
     justificativa_bucket: str = ""
     fontes: list[Source] = Field(default_factory=list)
 

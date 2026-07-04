@@ -80,10 +80,18 @@ class BenchmarkResult(BaseModel):
 
 
 def _vencedor(media_a: float, media_b: float) -> str:
-    """Vencedor = maior média; empate se |diferença| < EMPATE_EPSILON."""
-    if abs(media_a - media_b) < EMPATE_EPSILON:
+    """Vencedor = maior média; empate se |diferença| < EMPATE_EPSILON.
+
+    A diferença é arredondada a 1 casa ANTES do teste de epsilon — as médias já
+    são round(_, 1), mas a subtração de floats introduz erro (ex.: 8.1 - 8.0 =
+    0.0999…96, que seria < 0.1 espúrio e classificaria uma vitória real de 0.1
+    como 'empate'). Sem o round, 54% dos pares adjacentes de 0.1 quebravam o
+    determinismo da comparação — o valor central do produto.
+    """
+    diff = round(media_b - media_a, 1)
+    if abs(diff) < EMPATE_EPSILON:
         return "empate"
-    return "B" if media_b > media_a else "A"
+    return "B" if diff > 0 else "A"
 
 
 def evaluate(inp: BenchmarkInput) -> BenchmarkResult:
@@ -97,7 +105,10 @@ def evaluate(inp: BenchmarkInput) -> BenchmarkResult:
     vencedor = _vencedor(media_a, media_b)
 
     nao_vale_500 = not inp.doc_b.vale_500
-    nao_superior = media_b <= media_a
+    # "Visivelmente superior" = ser o vencedor B pela mesma régua de epsilon do
+    # `_vencedor`. Amarrar ao vencedor (em vez de `media_b <= media_a` cru) mantém
+    # kill e vencedor SEMPRE coerentes: empate nunca é 'superior' → dispara kill.
+    nao_superior = vencedor != "B"
 
     kill_disparado = nao_vale_500 or nao_superior
 
@@ -107,7 +118,7 @@ def evaluate(inp: BenchmarkInput) -> BenchmarkResult:
     if nao_superior:
         motivos.append(
             f"{inp.doc_b.nome} não é superior ao baseline "
-            f"(média {media_b} <= {media_a})"
+            f"(média {media_b} vs {media_a}, vencedor: {vencedor})"
         )
     kill_motivo = (
         "; ".join(motivos)
@@ -170,14 +181,15 @@ def render_report(inp: BenchmarkInput, result: BenchmarkResult) -> str:
     )
     lines.append("")
     lines.append(f"- {b.nome} vale R$500? **{'Sim' if b.vale_500 else 'Não'}.**")
-    superior = result.media_b > result.media_a
+    superior = result.vencedor == "B"
     lines.append(
         f"- {b.nome} é superior ao baseline? **{'Sim' if superior else 'Não'}** "
         f"(média {result.media_b} × {result.media_a})."
     )
     lines.append("")
-    resultado_final = "KILL" if result.kill_disparado else "CONTINUE"
-    lines.append(f"**{resultado_final}** — {result.veredito}")
+    # `veredito` já começa com "KILL —"/"CONTINUE —"; não reprefixar (evita
+    # "CONTINUE — CONTINUE"). Ele carrega o veredito completo e auditável.
+    lines.append(f"**{result.veredito}**")
     lines.append("")
 
     return "\n".join(lines)

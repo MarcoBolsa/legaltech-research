@@ -165,3 +165,54 @@ def test_build_partial_pack_hypotheses_md_ausente_levanta_erro(tmp_path):
             domain="legaltech",
             run_id="run-000-legaltech",
         )
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ENDURECIMENTO ADVERSARIAL (leva 4)
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+def test_roundtrip_preserva_acentos_pt(tmp_path):
+    """YAML roundtrip preserva caracteres PT (acentos, ç, aspas) byte a byte.
+
+    allow_unicode=True precisa manter 'regulação', 'frustração', 'não' intactos —
+    corrupção de acento quebraria o vocabulário do cliente e o heatmap.
+    """
+    pack = DomainPack(
+        meta=DomainPackMeta(
+            domain="jurídico-brasileiro",
+            version="1.0",
+            stage="parcial",
+            run_ids=["run-000-legaltech"],
+            n_runs=1,
+        ),
+        vocabulario_cliente=["prazo perdido é frustração", "petição às pressas", "audiência"],
+        failures_learned=["freemium não converteu — advogado não confia em automação"],
+        heatmap_regulatorio=[
+            {"claim_id": "C1", "url": "https://oab.org.br", "tier": 1, "nota": "captação vedada"}
+        ],
+    )
+    out = tmp_path / "pack-acentos.yaml"
+    pack.to_yaml(out)
+
+    raw = out.read_text(encoding="utf-8")
+    assert "frustração" in raw  # acento não virou \uXXXX nem foi corrompido
+    assert "petição" in raw
+    assert "não converteu" in raw
+
+    loaded = DomainPack.from_yaml(out)
+    assert loaded == pack
+    assert loaded.vocabulario_cliente[0] == "prazo perdido é frustração"
+    assert loaded.meta.domain == "jurídico-brasileiro"
+
+
+def test_pack_sem_hipoteses_e_valido():
+    """Pack parcial legítimo pode nascer com seções vazias (GAP honesto), não quebra."""
+    pack = DomainPack(
+        meta=DomainPackMeta(
+            domain="legaltech", version="1.0", stage="parcial", run_ids=["r"], n_runs=1
+        )
+    )
+    assert pack.hypotheses_validated == []
+    assert pack.heatmap_regulatorio == []
+    assert validate_pack(pack) == []

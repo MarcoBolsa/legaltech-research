@@ -239,3 +239,60 @@ def test_cli_init_kill_vazio_exit_2(tmp_path: Path):
     code = main(["init", "run-010-x", "--domain", "D", "--kill", "", "--base", str(tmp_path)])
     assert code == 2
     assert not (tmp_path / "run-010-x").exists()
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ENDURECIMENTO ADVERSARIAL (leva 4)
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+def test_manifest_from_yaml_sem_kill_criterion_levanta_valueerror(tmp_path: Path):
+    """MANIFEST no disco SEM a chave kill_criterion é recusado (RILP §1008).
+
+    Chave ausente vira ValidationError (que É subclasse de ValueError no
+    pydantic 2), então um `except ValueError` a captura — nunca passa batido.
+    """
+    manifest_path = tmp_path / "MANIFEST.yaml"
+    manifest_path.write_text(
+        "run_id: r1\ndomain: D\nstatus: initialized\n", encoding="utf-8"
+    )
+    with pytest.raises(ValueError):
+        RunManifest.from_yaml(manifest_path)
+
+
+def test_run_minimo_viavel_sem_claims_levanta_filenotfound(tmp_path: Path):
+    """Run sem p2/claims.yaml não colapsa silenciosamente — erro explícito."""
+    run_dir = init_run(tmp_path, "run-011-x", "LegalTech", _KILL)
+    (run_dir / "p0" / "hypotheses.md").write_text("# H", encoding="utf-8")
+    (run_dir / "p1" / "a.md").write_text("x", encoding="utf-8")
+    with pytest.raises(FileNotFoundError):
+        run_minimo_viavel(run_dir)
+
+
+def test_render_kill_nao_duplica_prefixo_no_run000():
+    """Regressão: a seção Kill do render não estampa 'não disparado — CONTINUE —'.
+
+    O rótulo de estado (DISPARADO/não disparado) já qualifica; usar kill_motivo
+    (sem o prefixo do veredito) evita o duplo-prefixo reportado pela leva 3.
+    """
+    report = run_minimo_viavel(RUN000)
+    md = report.render()
+    assert "não disparado — CONTINUE" not in md
+    assert "DISPARADO — KILL" not in md
+    # A seção Kill segue informativa (estado + motivo do kill check).
+    assert "não disparado" in md
+    assert "vale R$500" in md
+
+
+def test_gate_e_kill_permanecem_ortogonais_no_render(tmp_path: Path):
+    """Distinção arquitetural: um run pode ter gate FAIL e kill não disparado.
+
+    Reforça que os dois campos NÃO colapsam — seções separadas no markdown.
+    """
+    report = run_minimo_viavel(RUN000)
+    md = report.render()
+    idx_gate = md.index("## Gate G2→3")
+    idx_kill = md.index("## Kill criterion")
+    assert idx_gate != idx_kill
+    assert report.gate.resultado == "FAIL"
+    assert report.kill is not None and report.kill.kill_disparado is False

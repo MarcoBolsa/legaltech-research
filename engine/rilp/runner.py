@@ -161,7 +161,9 @@ class RunReport(BaseModel):
             )
         else:
             estado = "DISPARADO" if self.kill.kill_disparado else "não disparado"
-            lines.append(f"**{estado}** — {self.kill.veredito}")
+            # `kill_motivo` (sem o prefixo KILL/CONTINUE do veredito) evita o
+            # duplo-prefixo "não disparado — CONTINUE —"; o estado já rotula.
+            lines.append(f"**{estado}** — {self.kill.kill_motivo}")
         lines.append("")
 
         lines.append("## Resumo")
