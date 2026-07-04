@@ -331,6 +331,26 @@ flowchart TD
 | 🟡 **Médio (50-79%)** | 2 fontes OU 1 Tier 1 não triangulada | Pode usar com ressalva explícita |
 | 🔴 **Baixo (0-49%)** | 1 fonte Tier 3 OU não triangulada | Requer mais pesquisa antes de avançar |
 
+### Fórmula de Agregação — bucket → % (do gate 2→3)
+
+Os buckets são bandas qualitativas; o gate 2→3 exige um número. A conversão é **semi-determinística e calculável à mão**:
+
+**Passo 1 — pontos-âncora por claim** (ponto médio-alto de cada banda):
+
+| Bucket | Pontos-âncora |
+|---|:---:|
+| 🟢 Alto | 90 |
+| 🟡 Médio | 65 |
+| 🔴 Baixo | 25 |
+
+**Passo 2 — peso por criticidade do claim para a tese:** decisório = 3 · relevante = 2 · contextual = 1 (default = 1 → média simples).
+
+**Passo 3 — Score do run (%) = Σ(pontos × peso) ÷ Σ(peso)** — média ponderada dos claims.
+
+**Exemplo (à mão):** 6 claims peso 1 — 3 Alto, 2 Médio, 1 Baixo → (3×90 + 2×65 + 1×25) ÷ 6 = 425 ÷ 6 = **70,8%** → passa o piso.
+
+**Gate 2→3 (BLOQUEADOR) passa se:** Score do run ≥ 70% **E** nenhum claim **decisório** em bucket Baixo. Um claim decisório em Baixo reprova o gate mesmo com a média acima de 70% — é o mecanismo que impede "score baixo aceito contamina tudo".
+
 | Campo | Detalhe |
 |---|---|
 | **Agentes** | `@analyst` · `@qa` · `deep-research QA tier` (ioannidis + kahneman) |
@@ -640,7 +660,7 @@ flowchart TD
 |---|---|
 | **Quando ativar** | 30, 60 e 90 dias após o lançamento (P7) |
 | **Agentes** | `@analyst` · `data-chief` · `kaizen squad` |
-| **Output** | `p9-loop/retroalimentacao.md` · domain pack atualizado |
+| **Output** | `p9-loop/retroalimentacao.md` · **domain pack PARCIAL do domínio** (`legaltech-v1.yaml`, uso interno; vendável só após ≥2 runs — ver Domain Packs) |
 | **Modelo recomendado** | Sonnet/medium |
 
 **O P9 não é encerramento — é recomeço mais inteligente.**
@@ -684,6 +704,10 @@ flowchart LR
 - Erros documentados (o que não funcionou e por quê)
 - Heatmap regulatório atualizado
 - Stack de ferramentas validada
+
+**Consolidação em dois estágios:**
+- **Pack PARCIAL (após 1 run):** gerado ao fim do P9 do próprio run (`legaltech-v1.yaml`) — dados reais de 1 domínio, uso interno/P&D. Serve para o Run N+1 do MESMO domínio começar mais fundo.
+- **Pack VENDÁVEL / core cross-domain (após ≥2 runs):** só se consolida quando ≥2 domínios rodaram completos e o padrão cross-domain emerge. Generalizar com n=1 mata o protocolo (Aria, Princípio 5). Marketplace e Venture Studio partem daqui.
 
 **Valor comercial:** Um empreendedor comprando o domain pack de LegalTech pula 6-8 semanas de pesquisa. O pack representa o P0+P1+P2 já executados com dados reais — não teóricos.
 
@@ -926,7 +950,7 @@ domain-packs/                            ← NOVO em v2.0 — fora de /runs
 |---|---|---|---|
 | G0→1 | Epistemologia → Pesquisa | Hipóteses claras, específicas e falsificáveis | Opus/high |
 | G1→2 | Pesquisa → Síntese | 7 camadas completas, sem lacunas críticas | Sonnet/medium |
-| G2→3 | Síntese → Design | Score médio ≥ 70%, bias audit aprovado | Opus/high |
+| **G2→3** | **Síntese → Design** | **Score do run ≥ 70% + nenhum claim decisório em Baixo, bias audit aprovado — BLOQUEADOR** | **Opus/high** |
 | G3→4 | Design → Negócio | Workflow validado por 2+ especialistas | Sonnet/medium |
 | **G4→5** | **Negócio → GTM** | **Unit econ fecham em 1+ cenário — BLOQUEADOR** | **Opus/high** |
 | G5→6 | GTM → Brand/Plataforma | ICP validado (5+ entrevistas) + VP testada | Sonnet/medium |
@@ -934,7 +958,10 @@ domain-packs/                            ← NOVO em v2.0 — fora de /runs
 | G7→8 | Lançamento → Ops | Launch executado, métricas coletadas | Sonnet/medium |
 | G8→9 | Ops → Loop | Squads rodando, SOPs documentados, KPIs definidos | Sonnet/medium |
 
-**Gate 4→5 é o único verdadeiramente bloqueador:** unit economics que não fecham significam que o modelo de negócio não é viável — não há lançamento possível sem isso.
+**Dois gates são BLOQUEADORES (param o run); os demais são AVISOS (registram risco e seguem):**
+
+- **BLOQUEADORES — G2→3 (evidência) e G4→5 (viabilidade):** os dois pontos onde entra contaminação — confiança falsa (score baixo aceito) e economia que não fecha. Reprovar = parar e refazer o pilar; não avança.
+- **AVISOS — G0→1, G1→2, G3→4, G5→6, G6→7, G7→8, G8→9:** se reprovados, registram o risco no `gates/gate-XX-resultado.md` com carry-forward do débito e o run segue. O risco vira dívida rastreada, não parada.
 
 ---
 
@@ -960,23 +987,50 @@ flowchart LR
 
 ---
 
+## 🎯 Run Mínimo Viável (P0→P2)
+
+> *"Não há MVP dentro da arquitetura de 9 pilares — e o que é tudo-ou-nada nunca começa."*
+
+**P0→P2 é a menor unidade executável independente do RILP** — roda sozinha, sem depender de P3→P9, e produz um artefato de valor standalone:
+
+- **Entregável standalone:** uma síntese estratégica com 5-10 claims, cada um com fonte (tier declarado) e **score de confiança** pela rubrica do P2. É research-as-a-service entregável por si só, mesmo que o run pare aqui.
+- **Gate próprio inclui baseline:** o Run Mínimo Viável só passa se, além do gate G2→3 (Score do run ≥ 70%), o artefato for **comparado lado-a-lado contra deep research nativo** (Claude/GPT/Gemini) com rubrica explícita — e vencer. Sem superioridade demonstrada vs baseline, o P0→P2 é overhead sobre capacidade que já existe grátis.
+- **Unidade de decisão:** completar o Run Mínimo Viável é o que dispara o Critério de Kill. É o menor teste real de valor do protocolo — o que o **Run #0** exercita.
+
+Todo run começa pelo Run Mínimo Viável. Só se ele provar valor (kill não disparado) o run prossegue para P3→P9.
+
+---
+
+## ☠️ Critério de Kill — Todo Run Nasce com Condição de Morte
+
+> *"Projeto sem critério de morte não tem pressão para provar valor — pode viver documentando para sempre."*
+
+**Regra inegociável:** antes do P0 de qualquer run, escreve-se a **condição de morte** — o resultado concreto que, se não alcançado, encerra o run (ou o rebaixa a ferramenta interna) sem terceira reescrita de doutrina. O critério é escrito ANTES de começar, fica no `MANIFEST.yaml` do run, e é avaliado no gate de fim.
+
+**Critério vigente — Run #0 (P0→P2, LegalTech):**
+> Se ao fim do Run #0 não existir **1 artefato de síntese que valeria R$500 para um comprador** E **visivelmente superior ao baseline de deep research nativo** (comparação documentada), o RILP-9-pilares é descontinuado como produto e vira ferramenta interna P0→P2 (research-as-a-service pessoal). Sem terceira reescrita de doutrina.
+
+Cada run futuro define seu próprio critério de kill no mesmo formato: resultado mínimo + prazo + consequência da falha.
+
+---
+
 ## ⚠️ Princípios Inegociáveis
 
 **1. Gates são reais — não cerimônia.**
-Nenhum pilar avança sem o gate aprovado. Um gate com score baixo aceito "pra não travar" contamina tudo que vem depois. O custo de refazer o P3 depois de descobrir que o P2 tinha 40% de score é 10x maior que refazer o P2 agora.
+Um gate reprovado nunca é ignorado em silêncio: BLOQUEADOR (G2→3, G4→5) para o run e força refação; AVISO registra o débito no resultado do gate e segue com risco rastreado. Um claim de score baixo aceito "pra não travar" num gate bloqueador contamina tudo que vem depois — o custo de refazer o P3 depois de descobrir que o P2 tinha 40% de score é 10x maior que refazer o P2 agora.
 
 **2. Hipóteses falsificáveis — ou não são hipóteses.**
 "Acreditamos que o mercado quer IA" não é hipótese — é esperança. "Advogados com 2-10 anos de experiência aceitam usar IA para triagem de documentos quando a precisão for ≥ 85%" é falsificável. P0 define o nível de rigor de tudo que vem depois.
 
 **3. Unit economics fecham ou o run para.**
-Gate 4→5 é o único bloqueador absoluto. Um negócio com unit economics que não fecham é um negócio que vai queimar dinheiro até morrer — lançar mais rápido só acelera a morte.
+Gate 4→5 é bloqueador, junto com o G2→3 (ver Gates Consolidados). Um negócio com unit economics que não fecham é um negócio que vai queimar dinheiro até morrer — lançar mais rápido só acelera a morte.
 
 **4. Entrevistas reais — não suposições.**
 O gate 5→6 exige 5+ entrevistas com ICPs reais. "Eu acho que eles querem X" não passa o gate. Se o mercado não valida o ICP em campo, o negócio está sendo construído para um cliente imaginário.
 
 **5. Não generalizar com N=1** *(Aviso da Aria, @architect)*
 > *"Faça LegalTech end-to-end primeiro. Depois extraia o core domain-agnostic. Generalizar com um único run mata o protocolo."*
-O `domain-packs/` e o Venture Studio só se consolidam após 2 runs completos.
+O core cross-domain do `domain-packs/` e o Venture Studio só se consolidam após ≥2 runs completos. O pack PARCIAL de 1 domínio (uso interno) já nasce no P9 do primeiro run — ver Domain Packs.
 
 **6. Score de confiança é obrigatório — não opcional.**
 Cada claim nos artefatos do P2 tem um score. Apresentar insights sem score é apresentar ruído como inteligência. O Marco toma decisões com base nos artefatos — ele precisa saber em quais confiar.
