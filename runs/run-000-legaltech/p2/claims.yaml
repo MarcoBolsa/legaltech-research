@@ -1,0 +1,308 @@
+# P2 — Claims Estratégicos · Run #0 (LegalTech Brasil)
+# Protocolo: RILP v2.0 — Síntese Estratégica
+# Método de scoring: bucket → pontos-âncora (Alto=90 · Médio=65 · Baixo=25);
+#   peso por criticidade (decisório=3 · relevante=2 · contextual=1);
+#   Score do run = Σ(pontos × peso) ÷ Σ(peso).
+# Regra de bucket (triangulação): Alto = 3+ fontes Tier 1+2 trianguladas sem conflito;
+#   Médio = 2 fontes OU 1 Tier 1 não triangulada; Baixo = 1 fonte Tier 3 OU não triangulado.
+# Data: 2026-07-04
+
+meta:
+  run_id: run-000-legaltech
+  tese_central: >
+    Um empreendedor solo, não-advogado, consegue entrar no mercado brasileiro de
+    legaltech com um produto de IA e construir um negócio viável? A tese sobrevive
+    apenas se as 5 hipóteses decisórias (H1–H5) forem confirmadas.
+  hipoteses_decisorias: [H1, H2, H3, H4, H5]
+  hipoteses_secundarias: [H6, H7]
+
+claims:
+
+  - id: C1
+    enunciado: >
+      Um não-advogado PODE legalmente construir, deter e vender uma ferramenta de IA
+      no Brasil, DESDE QUE o produto seja B2B (vendido ao advogado como instrumento de
+      trabalho que assiste, não substitui, o julgamento), nunca B2C ao leigo, não
+      estime resultado/chance de processo e não faça matching/intermediação remunerada
+      de clientela. A responsabilidade ético-disciplinar recai sobre o advogado-usuário,
+      não sobre o fornecedor do software.
+    hypothesis_refs: [H3]
+    verdict: confirmada_com_restricao   # confirma H3 na forma B2B; refuta o escopo amplo (mata o B2C)
+    bucket: Alto
+    pontos: 90
+    peso: 3            # decisório — gate go/no-go jurídico
+    justificativa_bucket: >
+      Triangulação forte com múltiplas fontes Tier 1 (lei + atos do regulador) e Tier 2
+      (imprensa jurídica cobrindo decisão judicial e do Tribunal de Ética), sem conflito
+      de interesse. O único ponto de atenção é temporal, não de confiança: a OAB ainda
+      não tem provimento vinculante sobre IA (só Recomendação + plano em elaboração),
+      então a janela é favorável mas móvel.
+    fontes:
+      - {url: "https://www.planalto.gov.br/ccivil_03/leis/l8906.htm", tier: 1, nota: "Lei 8.906/94 art.1 — atividade privativa definida por lei, não por tecnologia"}
+      - {url: "https://www.oab.org.br/noticia/62711/confira-versao-final-da-recomendacao-do-cfoab-sobre-o-uso-de-ia-na-pratica-juridica", tier: 1, nota: "Recomendação CFOAB 001/2024 — supervisão humana; informar cliente"}
+      - {url: "https://diario.oab.org.br/pages/materia/842347", tier: 1, nota: "Texto oficial da Recomendação 001/2024"}
+      - {url: "https://www.conjur.com.br/2025-set-04/juiza-proibe-plataforma-de-oferecer-servicos-privativos-da-advocacia/", tier: 2, nota: "Precedente set/2025: plataforma B2C que estimava êxito + direcionava foi proibida (multa R$20k) — define a linha"}
+      - {url: "https://www.migalhas.com.br/quentes/455537/advogados-socios-devem-garantir-supervisao-em-uso-de-ia-decide-oab-sp", tier: 2, nota: "OAB/SP: responsabilidade de supervisão recai no advogado-sócio, não no fornecedor"}
+      - {url: "https://atos.cnj.jus.br/atos/detalhar/6001", tier: 1, nota: "CNJ Res. 615/2025 — regula IA no Judiciário; NÃO alcança B2B privado (delimita escopo)"}
+
+  - id: C2
+    enunciado: >
+      Existe dor real e recorrente nos workflows candidatos (análise/resumo de
+      documentos, elaboração de peças, pesquisa de jurisprudência): 55,1% dos
+      profissionais de direito já usam IA generativa nesses exatos usos, e existe
+      mercado pago ativo (R$40–700/mês) com troca de fornecedor documentada. PORÉM,
+      falta fonte primária recente (2024–2026) que ranqueie as 3 maiores dores
+      ESPONTÂNEAS do segmento solo/pequeno — a "dor paga POR WORKFLOW específico"
+      é inferida da existência de produtos pagos, não medida diretamente.
+    hypothesis_refs: [H1]
+    verdict: confirmada_parcial   # dor/adoção confirmadas; qual workflow é o mais valioso fica inconclusivo
+    bucket: Médio
+    pontos: 65
+    peso: 3            # decisório — sem dor paga não há mercado
+    justificativa_bucket: >
+      A ADOÇÃO nos workflows é triangulada em 3 fontes Tier 2 independentes (OAB-SP/ITS
+      Rio survey, FGV CEPI, AB2L) — isso sozinho seria Alto. Mas o núcleo DECISÓRIO de
+      H1 é "dor JÁ-PAGA no workflow específico + top-3 espontâneo", e esse elo repousa
+      em preços de vendor (Tier 3) e ausência de survey de ranking de dores — rebaixa
+      para Médio. Ressalva aplicada explicitamente (uso permitido com cautela).
+    fontes:
+      - {url: "https://convergenciadigital.com.br/inovacao/oab-sp-55-dos-advogados-usam-ia-generativa/", tier: 2, nota: "OAB-SP+Trybe+Jusbrasil+ITS Rio, n=1.500: 55,1% usam IAGen; usos = doc/peça/jurisprudência. [P2 bias-audit 2026-07-04, verificado na fonte] a própria matéria declara amostra NÃO representativa nacionalmente: viés geográfico (concentração Sudeste) + viés de engajamento (respondentes já engajados com tecnologia) → o 55,1% é teto enviesado para cima (selection bias); reforça manter C2 em Médio, não sustenta upgrade a Alto"}
+      - {url: "https://direitosp.fgv.br/noticias/pesquisa-fgv-direito-sp-aponta-que-cerca-80-profissionais-no-setor-juridico-usam-inteligencia", tier: 2, nota: "FGV CEPI, n=495 + 40 entrevistas: ~80% usam IAGen; custo é a barreira central, não desinteresse"}
+      - {url: "https://lawinnovation.com.br/area-juridica-esta-mais-aberta-para-as-novas-tecnologias-aponta-estudo-da-ab2l/", tier: 2, nota: "AB2L+Lexly 2021, n=2.019: 32,7% não adotam por custo; 93% disposição de USO (não de pagamento); dado pré-LLM"}
+      - {url: "https://www.reclameaqui.com.br/empresa/adv-box/", tier: 3, nota: "Evidência anedótica de dor paga e troca de fornecedor no segmento solo/pequeno"}
+      - {url: "https://www.aurum.com.br/astrea/planos-e-precos/", tier: 3, nota: "Mercado pago real R$50–1.249/mês (conflito de interesse — vendor)"}
+
+  - id: C3
+    enunciado: >
+      "Ter IA" NÃO é diferencial — está comoditizado. O maior incumbente (Jusbrasil)
+      integrou o Jus IA (RAG sobre 1,2 bi de documentos próprios) a TODOS os planos sem
+      custo adicional, com 300 mil advogados/mês. Wrappers genéricos de LLM (gerar
+      minuta via chat, responder no WhatsApp) são replicáveis numa tarde e não têm fosso.
+      Logo, defensabilidade (H4) só existe na forma ESTREITA: nicho vertical + dados
+      proprietários lícitos + workflow completo + integração — nunca na forma ampla
+      "IA genérica basta".
+    hypothesis_refs: [H4, AH1]
+    verdict: AH1_confirmada__H4_refutada_ampla_confirmada_estreita
+    bucket: Alto
+    pontos: 90
+    peso: 3            # decisório — wrapper sem ativo não sobrevive a ciclo de preço dos provedores
+    justificativa_bucket: >
+      Comoditização triangulada em Tier 2 (2 matérias ConJur sobre o Jus IA: lançamento
+      mar/2025 e inclusão em todos os planos abr/2026 com escala de 300k/mês) + survey de
+      adoção majoritária. A direção do capital de risco (Enter, Harvey/CoCounsel buscando
+      fosso de dados+integração, não wrapper) corrobora. Alta confiança.
+    fontes:
+      - {url: "https://www.conjur.com.br/2025-mar-19/jusbrasil-lanca-ferramenta-de-ia-para-auxiliar-o-trabalho-de-advogados-e-juizes/", tier: 2, nota: "Lançamento Jus IA sobre 1,2 bi de documentos próprios"}
+      - {url: "https://www.conjur.com.br/2026-abr-13/ferramenta-de-ia-passa-a-integrar-todos-os-planos-do-jusbrasil/", tier: 2, nota: "Jus IA grátis em todos os planos; 300 mil advogados/mês — comoditização deliberada"}
+      - {url: "https://exame.com/negocios/enter-como-uma-startup-brasileira-de-ia-atraiu-us-55-milhoes-da-sequoia/", tier: 2, nota: "Capital de risco (Sequoia/Founders Fund) busca fosso de dados+workflow, não wrapper"}
+      - {url: "https://ialocus.com.br/blog/post-melhor-ia-juridica-brasil-comparativo-2026.html", tier: 3, nota: "Teardown: ChatADV/Jurídico AI/LinkLei parecem wrappers de UX sobre LLM genérico (conflito — agregador vendor)"}
+
+  - id: C4
+    enunciado: >
+      O risco de alucinação de IA (citação de jurisprudência/lei inexistente) é
+      MATERIALIZADO, não teórico: multas documentadas em 2025–2026 no TST, TJSC, TJPR,
+      TRT-2 e TRT-12 (R$1.200 a 20 salários-mínimos) + ofício à OAB para apuração
+      disciplinar. O advogado é o responsável — favorável ao fornecedor no plano legal,
+      mas um produto que causa esse erro sistematicamente carrega risco reputacional.
+      Consequência de produto: o workflow-alvo exige citação verificável/rastreável
+      contra base primária e deve ser tolerante a erro assistido — NÃO geração livre.
+    hypothesis_refs: [H7]
+    verdict: confirmada   # confirma H7 como risco real; endereçável por design (refuta a versão ingênua "IA já basta")
+    bucket: Alto
+    pontos: 90
+    peso: 2            # secundária/relevante — risco de execução endereçável pela escolha do workflow
+    justificativa_bucket: >
+      Triangulação excelente: 3 fontes oficiais de tribunal Tier 1 (TST, TJSC, TRT-12)
+      + cobertura Tier 2 (ConJur, Migalhas TJPR) + a Recomendação OAB que exige supervisão
+      humana. Fato robusto e convergente entre jurisdições distintas.
+    fontes:
+      - {url: "https://www.tst.jus.br/en/-/empresa-e-advogado-sao-condenados-por-possivel-uso-de-ia-com-citacoes-falsas-de-jurisprudencia", tier: 1, nota: "TST — condenação por citações falsas de IA"}
+      - {url: "https://www.tjsc.jus.br/web/imprensa/-/tjsc-multa-autor-de-recurso-por-jurisprudencia-falsa-gerada-por-inteligencia-artificial", tier: 1, nota: "TJSC — multa por jurisprudência falsa gerada por IA"}
+      - {url: "https://portal.trt12.jus.br/noticias/autora-de-acao-e-multada-apos-advogada-inventar-jurisprudencia-e-desembargador", tier: 1, nota: "TRT-12 — multa por jurisprudência inventada"}
+      - {url: "https://www.conjur.com.br/2026-fev-16/uso-de-jurisprudencia-criada-por-ia-gera-multa-por-ma-fe-e-oficio-a-oab/", tier: 2, nota: "Padrão consolidado: multa por má-fé + ofício à OAB"}
+      - {url: "https://www.migalhas.com.br/quentes/459252/tj-pr-ve-ma-fe-e-multa-advogado-por-julgado-confeccionado-por-ia", tier: 2, nota: "TJ/PR — má-fé, fev/2026"}
+
+  - id: C5a
+    enunciado: >
+      Existe willingness-to-pay recorrente e comportamento de compra estabelecido no
+      segmento solo/pequeno: a faixa observada (gestão R$40–220/mês; IA jurídica
+      R$149–350/mês) confirma que o mercado aceita pagar assinatura de SaaS jurídico —
+      não é preciso criar o hábito, apenas capturá-lo.
+    hypothesis_refs: [H2]
+    verdict: confirmada_parcial   # a EXISTÊNCIA de WTP na faixa está confirmada; a suficiência p/ o solo é C5b
+    bucket: Médio
+    pontos: 65
+    peso: 2            # relevante — sustenta a plausibilidade, mas não fecha a economia
+    justificativa_bucket: >
+      Faixas de preço vêm de páginas de vendor (Tier 3, conflito), mas convergem entre
+      vários fornecedores e batem com a faixa indicativa da H2; o teto de renda que as
+      contextualiza tem lastro Tier 1 (FGV/OAB). 2 fontes efetivas → Médio.
+    fontes:
+      - {url: "https://advbox.com.br/planos", tier: 3, nota: "Gestão R$220–1.800/mês (vendor)"}
+      - {url: "https://ialocus.com.br/blog/post-ia-juridica-preco.html", tier: 3, nota: "IA jurídica R$149–699/mês (agregador vendor, conflito)"}
+      - {url: "https://conhecimento.fgv.br/sites/default/files/2025-01/publicacoes/perfil_adv_1o-estudo_demografico_da_advocacia_brasileira.pdf", tier: 1, nota: "OAB+FGV: 64% ganham até R$6,6mil/mês — contextualiza o teto de WTP"}
+
+  - id: C5b
+    enunciado: >
+      A viabilidade econômica para um FUNDADOR SOLO (LTV > CAC com payback ≤12 meses) NÃO
+      está provada e é o maior risco aberto do run. Três pressões documentadas + um vazio
+      de dados: (1) 64% dos advogados ganham até R$6,6mil/mês → ticket de R$150–350 é 2–5%
+      da renda; (2) incumbentes praticam preço de entrada quase-gratuito (R$1,90/R$9,90/
+      grátis-1-ano) = race-to-the-bottom; (3) NENHUM dado de CAC, churn ou LTV do setor
+      jurídico brasileiro foi encontrado em nenhuma das 5 frentes. A economia pode não
+      fechar; a evidência documental é insuficiente para afirmar que fecha.
+    hypothesis_refs: [H2]
+    verdict: inconclusiva   # decisório sem lastro — dado central (CAC/LTV/churn) ausente
+    bucket: Baixo
+    pontos: 25
+    peso: 3            # DECISÓRIO — gate bloqueador (G4→5 é onde fecha; aqui já sinaliza)
+    justificativa_bucket: >
+      O núcleo de H2 (unit economics fechando) repousa em preços de lista Tier 3 e ZERO
+      dado de CAC/churn/LTV — não triangulado, dado central ausente → Baixo por definição
+      da rubrica. Rebaixar seria contaminação (§ gate bloqueador). O baseline de deep
+      research nativo afirmou "a economia fecha, mas com margem apertada" — isso é
+      OVERREACH sobre zero dado de CAC; este run recusa a afirmação.
+    fontes:
+      - {url: "https://www.conjur.com.br/2024-abr-30/mais-de-um-terco-dos-advogados-do-brasil-ganham-menos-de-r-3-mil/", tier: 2, nota: "34% ganham até R$2.824/mês — teto de WTP apertado"}
+      - {url: "https://www.jusbrasil.com.br/pro", tier: 3, nota: "Preço de entrada promocional R$1,90 — sinal de race-to-the-bottom"}
+      - {url: "GAP", tier: 0, nota: "Ausência confirmada de CAC/churn/LTV setorial em todas as 5 frentes P1 — dado central de H2 não existe na coleta documental"}
+
+  - id: C6
+    enunciado: >
+      Para o CANAL de aquisição (H5), a regulação delimita com clareza o permitido:
+      conteúdo/SEO, comunidades e diretórios PASSIVOS são tolerados; marketplace de
+      matching ativo advogado↔cliente é a categoria mais perseguida pela OAB (20+ ações).
+      MAS a viabilidade ECONÔMICA desses canais para um outsider não-advogado (CAC real,
+      taxa de conversão, caso de sucesso de GTM frio) é NÃO TESTADA — nenhuma frente
+      encontrou dado de CAC, e o único número de conversão (freemium ~1,4%, N=1, modelo
+      de consultoria manual) pesa contra "freemium resolve aquisição".
+    hypothesis_refs: [H5]
+    verdict: inconclusiva   # restrição regulatória clara (Médio); viabilidade/CAC ausente (Baixo) → líquido decisório sem lastro
+    bucket: Baixo
+    pontos: 25
+    peso: 3            # DECISÓRIO — produto sem canal é hobby; o não-advogado carrega esse risco de forma aguda
+    justificativa_bucket: >
+      A sub-parte regulatória (quais canais são lícitos) é bem evidenciada (Tier 1/2).
+      Mas o núcleo DECISÓRIO de H5 — "existe canal escalável e BARATO alcançável por
+      outsider" — depende de CAC, que é gap total. O componente que mata ou salva a tese
+      não foi medido → Baixo honesto. É um limite estrutural: canal exige dado de campo
+      (fora do escopo P0→P2).
+    fontes:
+      - {url: "https://www.jusbrasil.com.br/artigos/principais-plataformas-para-prospeccao-de-clientes-na-advocacia-em-meio-virtual-e-visao-da-oab/926396158", tier: 3, nota: "Tribunal de Ética OAB/SP: diretório passivo ok; matching ativo = captação indevida"}
+      - {url: "https://lawinnovation.com.br/disputa-regulatoria-entre-oab-e-legaltechs-influenciara-futuro-da-advocacia-avalia-startup/", tier: 2, nota: "OAB moveu 20+ ações contra legaltechs de captação; resultado misto (Resolvvi ganhou)"}
+      - {url: "https://napratica.org.br/noticias/3-legaltechs-brasileiras", tier: 2, nota: "Freemium ~1,4% conversão (Nós 8) — N=1, modelo manual, sinal fraco contra freemium escalável"}
+      - {url: "GAP", tier: 0, nota: "Nenhum dado de CAC/funil de aquisição para o segmento solo BR em nenhuma frente"}
+
+  - id: C7
+    enunciado: >
+      Há lacuna ocupável por um solo, mas SÓ na forma vertical estreita: os incumbentes
+      de gestão (Astrea/Projuris/Legal One/SAJ) e o Jusbrasil cobrem o horizontal e
+      comoditizam o genérico; nenhum player internacional (Harvey/CoCounsel) atende o
+      solo no BR; e nenhum concorrente mapeado entrega workflow vertical completo + IA
+      com compliance de consentimento do cliente embutido. A lacuna NÃO é ocupável no
+      horizontal (Jusbrasil fecha "IA barata genérica" a ~R$59/mês).
+    hypothesis_refs: [H6]
+    verdict: confirmada_condicional   # lacuna existe em nicho vertical, não no horizontal
+    bucket: Médio
+    pontos: 65
+    peso: 2            # secundária/relevante — refuta o "como", não o "se"
+    justificativa_bucket: >
+      Mapa competitivo majoritariamente Tier 3 (páginas de vendor) com corroboração
+      Tier 2 (ConJur sobre Jus IA; pivô B2B do Jusbrasil). Parcialmente triangulado,
+      direção consistente → Médio.
+    fontes:
+      - {url: "https://ialocus.com.br/blog/post-sistema-advocacia-lgpd-cpj-astrea-projuris-2026.html", tier: 3, nota: "Incumbentes de gestão não entregam IA com sigilo/DPA Art.34 EOAB — lacuna de produto"}
+      - {url: "https://startups.com.br/negocios/legaltech/exclusivo-jusbrasil-atrai-warburg-pincus-e-amplia-foco-no-b2b/", tier: 2, nota: "Jusbrasil pivota B2C→B2B/B2G — pode abrir lacuna no solo (ambíguo: lacuna boa ou ruim de monetizar)"}
+      - {url: "https://www.harveyai.com.br/", tier: 3, nota: "Harvey só enterprise/lista de espera — não atende solo no BR"}
+
+  - id: C8
+    enunciado: >
+      O "mercado gigante e atrasado" (1,3 milhão de advogados, mercado jurídico ~R$50bi)
+      NÃO se traduz em SAM endereçável para um entrante de IA no segmento solo. O mercado
+      de "Legal AI Brasil" é estimado em apenas ~US$58,7M (2030); o capital de risco mira
+      o segmento OPOSTO (Enter/enterprise, contencioso de massa); e as contagens de
+      legaltechs são inconsistentes (400/1.000/1.500). "Mercado grande" é prova frouxa de
+      demanda — TAM não é SAM.
+    hypothesis_refs: [AH2]
+    verdict: AH2_confirmada
+    bucket: Médio
+    pontos: 65
+    peso: 2            # relevante — molda a estratégia (nicho > tamanho bruto)
+    justificativa_bucket: >
+      Nº de advogados é Tier 1; direção do capital é Tier 2; estimativa de mercado
+      (Grand View) é Tier 3 (reclassificado no bias-audit — teaser de relatório pago,
+      HTTP 403, metodologia não verificável); a ausência de SAM verificável para o nicho
+      é gap. Convergência de direção, mas nenhum número de SAM é auditável → Médio, não Alto.
+      Bucket confirmado no bias-audit: o líquido "TAM≠SAM" sobrevive no Tier 1 (contagem
+      de advogados) + Tier 2 (direção do capital para enterprise), independente do número
+      Grand View.
+    fontes:
+      - {url: "https://conhecimento.fgv.br/sites/default/files/2025-01/publicacoes/perfil_adv_1o-estudo_demografico_da_advocacia_brasileira.pdf", tier: 1, nota: "1,3M advogados; 72% autônomos"}
+      - {url: "https://www.grandviewresearch.com/horizon/outlook/legal-ai-market/brazil", tier: 3, nota: "Legal AI BR ~US$58,7M até 2030 — pequeno frente ao nº de advogados. [P2 bias-audit 2026-07-04: RECLASSIFICADO Tier 2→3] fetch retornou HTTP 403 (paywall); é página-teaser de relatório pago com metodologia não auditável → não atende critério Tier 2 (analista vendor-neutral verificável). Não altera bucket de C8 (Médio já ancorado no nº advogados Tier 1 + direção do capital Tier 2; US$58,7M sempre foi a perna fraca)"}
+      - {url: "https://braziljournal.com/enter-usa-ai-para-desafogar-acoes-trabalhistas-e-de-consumidores-e-ja-atraiu-o-sequoia/", tier: 2, nota: "Capital vai para enterprise/contencioso de massa, não para o solo"}
+
+  - id: C9
+    enunciado: >
+      A rota óbvia de fosso de dados — scraping massivo de dados processuais públicos
+      (PJe/e-SAJ/diários) — NÃO é atalho livre de risco: a ANPD classificou scraping como
+      tratamento sujeito à LGPD (mesmo sobre dado publicado voluntariamente), com
+      fiscalização prevista, e a tensão publicidade processual × LGPD é zona cinzenta não
+      resolvida (CNJ Res. 647/2025). O fosso de dados defensável deve vir do próprio
+      workflow/cliente (dados proprietários lícitos), não de scraping em escala.
+    hypothesis_refs: [H4]
+    verdict: refuta_parcial_via_facil   # informa H4: derruba o atalho de scraping como moat barato
+    bucket: Médio
+    pontos: 65
+    peso: 2            # relevante — molda a arquitetura do fosso
+    justificativa_bucket: >
+      ANPD via análise de escritório (Tier 2) + Res. CNJ 647/2025 (Tier 1, não aprofundada)
+      + guia OAB Campinas (Tier 2). Direção clara, mas o conteúdo exato da Res. 647 não foi
+      extraído → Médio.
+    fontes:
+      - {url: "https://www.mattosfilho.com.br/en/unico/anpd-legal-data-processing-brazil/", tier: 2, nota: "ANPD: web scraping é tratamento sujeito à LGPD; fiscalização na agenda 2025"}
+      - {url: "https://atos.cnj.jus.br/atos/detalhar/6340", tier: 1, nota: "CNJ Res. 647/2025 — LGPD nos tribunais (conteúdo não aprofundado — lacuna)"}
+      - {url: "https://oabcampinas.org.br/wp-content/uploads/2021/12/Guia-LGPD_Advocacia.pdf", tier: 2, nota: "Escritório = controlador; software = operador → DPA é requisito comercial básico"}
+
+# ─────────────────────────────────────────────────────────────────────────────
+score_run:
+  formula: "Score = Σ(pontos × peso) ÷ Σ(peso)"
+  tabela:
+    - {claim: C1,  bucket: Alto,  pontos: 90, peso: 3, produto: 270}
+    - {claim: C2,  bucket: Médio, pontos: 65, peso: 3, produto: 195}
+    - {claim: C3,  bucket: Alto,  pontos: 90, peso: 3, produto: 270}
+    - {claim: C4,  bucket: Alto,  pontos: 90, peso: 2, produto: 180}
+    - {claim: C5a, bucket: Médio, pontos: 65, peso: 2, produto: 130}
+    - {claim: C5b, bucket: Baixo, pontos: 25, peso: 3, produto: 75}
+    - {claim: C6,  bucket: Baixo, pontos: 25, peso: 3, produto: 75}
+    - {claim: C7,  bucket: Médio, pontos: 65, peso: 2, produto: 130}
+    - {claim: C8,  bucket: Médio, pontos: 65, peso: 2, produto: 130}
+    - {claim: C9,  bucket: Médio, pontos: 65, peso: 2, produto: 130}
+  soma_produtos: 1585      # 270+195+270+180+130+75+75+130+130+130
+  soma_pesos: 25           # 3+3+3+2+2+3+3+2+2+2
+  conta: "1585 ÷ 25 = 63,4"
+  score_percent: 63.4
+
+  # Sensibilidade (honestidade sobre robustez do resultado):
+  sensibilidade:
+    - "Se C2/H1 fosse Alto (90): 1660÷25 = 66,4% — ainda < 70% e ainda reprova por decisório em Baixo."
+    - "Se C6/H5 fosse Médio (65): 1705÷25 = 68,2% — ainda < 70%, e C5b permanece decisório em Baixo → reprova."
+    - "Só passaria (≥70% E sem decisório em Baixo) se AMBOS C5b e C6 subissem a Médio: 1825÷25 = 73%. Isso exigiria dado de CAC/LTV/churn — que não existe na coleta. O resultado NÃO é knife-edge manipulado: é estruturalmente ancorado na ausência dos dois dados decisórios."
+
+gate_g2_3:
+  condicao_1_score: "Score do run ≥ 70% → 63,4% → FALHA"
+  condicao_2_decisorio_baixo: "Nenhum claim decisório em Baixo → C5b (H2) e C6 (H5) estão em Baixo → FALHA"
+  resultado: "NÃO PASSA"
+  natureza: >
+    NÃO PASSA é o veredito epistemologicamente correto, não um acidente. O run FECHA com
+    alta confiança as perguntas jurídica (H3), de commoditização/fosso (H4/AH1), de risco
+    técnico (H7) e de TAM×SAM (AH2). Mas os DOIS decisórios que restam — economia (H2) e
+    canal (H5) — dependem de dado de campo (CAC/LTV/churn, funil de GTM) que o escopo
+    documental P0→P2 explicitamente exclui. O gate bloqueador está funcionando como
+    projetado: recusa-se a dar sinal verde ao que a evidência não sustenta. A decisão
+    go/no-go NÃO é "não entrar" — é "entrada condicional a fechar H2/H5 no P4 (gate G4→5,
+    unit economics) com validação primária". Ver sintese-estrategica.md §Recomendação.
+  proximo_passo: >
+    Reabrir P1 dirigido (ou avançar a um P4 de viabilidade) para gerar: (a) benchmark de
+    CAC/LTV/churn de SaaS jurídico BR — via entrevista de fundador ou dado privado; (b)
+    teste de canal (custo real de aquisição de 10 advogados de UMA vertical via conteúdo/
+    comunidade). Fechados esses dois, o score recalcula e o gate reavalia.

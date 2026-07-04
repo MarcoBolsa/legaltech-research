@@ -10,7 +10,8 @@
       "Write(.aiox-core/data/**)",
       "Edit(.aiox-core/development/agents/*/MEMORY.md)",
       "Write(.aiox-core/development/agents/*/MEMORY.md)",
-      "Read(.aiox-core/**)"
+      "Read(.aiox-core/**)",
+      "mcp__supabase__execute_sql"
     ],
     "deny": [
       "Edit(.aiox-core/core/code-intel/**)",

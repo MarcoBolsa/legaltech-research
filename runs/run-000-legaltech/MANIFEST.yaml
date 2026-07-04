@@ -1,0 +1,10 @@
+run_id: run-000-legaltech
+domain: "LegalTech Brasil"
+scope: "Run Mínimo Viável (P0→P2) — ver RILP-v2.md seção Run Mínimo Viável"
+started: "undefined"
+timebox: "7 dias corridos"
+branch: run-000-legaltech
+protocol_version: "RILP v2.0 pós-Fase A"
+kill_criterion: |
+  Se ao fim do Run #0 não existir **1 artefato de síntese que valeria R$500 para um comprador** E **visivelmente superior ao baseline de deep research nativo** (avaliação comparativa documentada), o RILP-9-pilares é descontinuado como produto e vira ferramenta interna P0→P2 (research-as-a-service pessoal). Sem terceira reescrita de doutrina.
+status: completed # 2026-07-04 — gate G2→3 NÃO PASSA (63,4%); juiz: RILP vence baseline, diferença clara; kill NÃO disparado → CONTINUE

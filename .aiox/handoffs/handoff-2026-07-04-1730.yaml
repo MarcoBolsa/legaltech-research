@@ -1,0 +1,59 @@
+generated_at: 2026-07-04T17:30:00-03:00
+session_date: 2026-07-04T17:30:00-03:00
+project: legaltech-research
+agent: aiox-master (Orion)
+branch: run-000-legaltech
+pipeline_id: run-000-legaltech
+
+stories_active:
+  - id: "Fase C (PLANO-YOLO-RUN000)"
+    status: "CONCLUÍDA — RILP Engine entregue (FIM §33.5-d atingido: sistema rodando + 69 testes verdes)"
+    last_task: "Leva 4 QA adversarial commitada (3b1dded); engine reproduz o Run #0 via CLI"
+
+decisions:
+  - "Fase C liberada por Marco → executada em YOLO, 4 levas, model routing §32 (Opus contrato/integração/QA · Sonnet frentes paralelas)"
+  - "Stack Python 3.12 + pydantic 2 (greenfield de código; Node/TS descartado — projeto isolado do runtime AIOX). Ver DECISIONS.md 2026-07-04"
+  - "Engine = harness de validação/orquestração determinístico, NÃO pipeline de LLM (a pesquisa segue sendo dos agentes)"
+  - "Distinção arquitetural registrada: gate G2→3 (avanço a P3) e kill criterion (protocolo morre?) são ortogonais — engine não os colapsa"
+  - "QA adversarial corrigiu bug HIGH de ponto-flutuante no benchmark (vitória de 0,1 virava empate) mascarado na 1ª suíte"
+
+files_modified:
+  - engine/pyproject.toml (novo — projeto Python)
+  - engine/rilp/{models,scoring,domain_pack,benchmark,runner,cli}.py (novos — o engine)
+  - engine/tests/{test_scoring,test_domain_pack,test_benchmark,test_runner}.py (novos — 69 testes)
+  - engine/schemas/{domain-pack,benchmark-rubric}.schema.yaml (novos)
+  - domain-packs/legaltech-v1.yaml (novo — pack parcial gerado dos artefatos reais)
+  - runs/run-000-legaltech/baseline/benchmark.yaml (novo — input do kill check)
+  - docs/FASE-C-SPEC.md (novo — arquitetura da Fase C)
+  - docs/DECISIONS.md · docs/A-FAZER.md · .gitignore (Python)
+
+commits:
+  - "4f57174 — Leva 1 score engine + contrato (14 testes)"
+  - "e5fff34 — Leva 2 domain pack + benchmark (34 testes)"
+  - "75d60bd — Leva 3 runner P0→P2 + CLI (51 testes)"
+  - "3b1dded — Leva 4 QA adversarial (69 testes)"
+
+blockers:
+  - "Nenhum bloqueador de execução. Branch run-000-legaltech local — push pendente (via @devops)."
+
+divida_tecnica:
+  - "Piso do gate usa Score arredondado (69,95→70,0 passa) — Marco decide se piso é arredondado (atual) ou estrito"
+  - "pytest-cov não instalado — @devops adiciona ao CI para cobertura auditável"
+  - "Branch refundacao/dedup-aiox-claude-md (6 commits) ainda sem merge"
+
+next_step: |
+  1. Marco revisa engine/ (rodar: cd engine && python3 -m pytest -q  → 69 passed; e python3 -m rilp.cli run ../runs/run-000-legaltech)
+  2. Marco decide as 2 dívidas técnicas (piso do gate; pytest-cov)
+  3. Push da branch run-000-legaltech via @devops; considerar PR → main quando o engine for validado
+  4. Caminho que muda o veredito 63,4%: experimentos de campo H2 (economia/CAC-LTV) e H5 (canal) — fora do escopo P0→P2
+
+resume_prompt: |
+  /AIOX:agents:aiox-master
+  Retomada legaltech-research. Branch: run-000-legaltech. Fase C (RILP Engine em Python) CONCLUÍDA
+  e commitada em 4 levas (4f57174, e5fff34, 75d60bd, 3b1dded) — 69 testes verdes, ruff limpo,
+  `rilp run` reproduz o Run #0 (score 63,4% / gate FAIL / kill não dispara → CONTINUE).
+  Código em engine/ (models/scoring/domain_pack/benchmark/runner/cli). Ver docs/FASE-C-SPEC.md e
+  docs/DECISIONS.md (2026-07-04). Pendências: push via @devops; 2 dívidas técnicas (piso do gate
+  arredondado vs estrito; pytest-cov no CI); experimentos de campo H2/H5 é o que muda o veredito.
+
+consumed: false

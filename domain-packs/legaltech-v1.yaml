@@ -1,0 +1,141 @@
+meta:
+  domain: legaltech
+  version: '1.0'
+  stage: parcial
+  run_ids:
+  - run-000-legaltech
+  n_runs: 1
+  generated_at: ''
+hypotheses_validated:
+- id: C1
+  enunciado: Um não-advogado PODE legalmente construir, deter e vender uma ferramenta
+    de IA no Brasil, DESDE QUE o produto seja B2B (vendido ao advogado como instrumento
+    de…
+  verdict: confirmada_com_restricao
+  bucket: Alto
+  confianca: 90
+- id: C2
+  enunciado: 'Existe dor real e recorrente nos workflows candidatos (análise/resumo
+    de documentos, elaboração de peças, pesquisa de jurisprudência): 55,1% dos profissionais…'
+  verdict: confirmada_parcial
+  bucket: Médio
+  confianca: 65
+- id: C3
+  enunciado: '"Ter IA" NÃO é diferencial — está comoditizado. O maior incumbente (Jusbrasil)
+    integrou o Jus IA (RAG sobre 1,2 bi de documentos próprios) a TODOS os planos
+    se…'
+  verdict: AH1_confirmada__H4_refutada_ampla_confirmada_estreita
+  bucket: Alto
+  confianca: 90
+- id: C4
+  enunciado: 'O risco de alucinação de IA (citação de jurisprudência/lei inexistente)
+    é MATERIALIZADO, não teórico: multas documentadas em 2025–2026 no TST, TJSC, TJPR,
+    TRT-…'
+  verdict: confirmada
+  bucket: Alto
+  confianca: 90
+- id: C5a
+  enunciado: 'Existe willingness-to-pay recorrente e comportamento de compra estabelecido
+    no segmento solo/pequeno: a faixa observada (gestão R$40–220/mês; IA jurídica
+    R$149…'
+  verdict: confirmada_parcial
+  bucket: Médio
+  confianca: 65
+- id: C5b
+  enunciado: A viabilidade econômica para um FUNDADOR SOLO (LTV > CAC com payback
+    ≤12 meses) NÃO está provada e é o maior risco aberto do run. Três pressões documentadas
+    +…
+  verdict: inconclusiva
+  bucket: Baixo
+  confianca: 25
+- id: C6
+  enunciado: 'Para o CANAL de aquisição (H5), a regulação delimita com clareza o permitido:
+    conteúdo/SEO, comunidades e diretórios PASSIVOS são tolerados; marketplace de
+    mat…'
+  verdict: inconclusiva
+  bucket: Baixo
+  confianca: 25
+- id: C7
+  enunciado: 'Há lacuna ocupável por um solo, mas SÓ na forma vertical estreita: os
+    incumbentes de gestão (Astrea/Projuris/Legal One/SAJ) e o Jusbrasil cobrem o horizontal
+    e…'
+  verdict: confirmada_condicional
+  bucket: Médio
+  confianca: 65
+- id: C8
+  enunciado: O "mercado gigante e atrasado" (1,3 milhão de advogados, mercado jurídico
+    ~R$50bi) NÃO se traduz em SAM endereçável para um entrante de IA no segmento solo.
+    O…
+  verdict: AH2_confirmada
+  bucket: Médio
+  confianca: 65
+- id: C9
+  enunciado: 'A rota óbvia de fosso de dados — scraping massivo de dados processuais
+    públicos (PJe/e-SAJ/diários) — NÃO é atalho livre de risco: a ANPD classificou
+    scraping…'
+  verdict: refuta_parcial_via_facil
+  bucket: Médio
+  confianca: 65
+icp_real:
+  status: GAP — ICP validado em campo requer dado primário (fora do escopo P0→P2)
+unit_econ_benchmark:
+  status: GAP — CAC/LTV/churn ausentes no escopo documental P0→P2
+  detalhe: Nenhuma frente do run encontrou dado de CAC/churn/LTV do setor jurídico
+    brasileiro (ver claim C5b/C6). Unit economics de fundador solo permanece NÃO PROVADA
+    — não inventamos número aqui.
+vocabulario_cliente: []
+failures_learned: []
+heatmap_regulatorio:
+- claim_id: C1
+  hypothesis_refs:
+  - H3
+  url: https://www.planalto.gov.br/ccivil_03/leis/l8906.htm
+  tier: 1
+  nota: Lei 8.906/94 art.1 — atividade privativa definida por lei, não por tecnologia
+- claim_id: C1
+  hypothesis_refs:
+  - H3
+  url: https://www.oab.org.br/noticia/62711/confira-versao-final-da-recomendacao-do-cfoab-sobre-o-uso-de-ia-na-pratica-juridica
+  tier: 1
+  nota: Recomendação CFOAB 001/2024 — supervisão humana; informar cliente
+- claim_id: C1
+  hypothesis_refs:
+  - H3
+  url: https://diario.oab.org.br/pages/materia/842347
+  tier: 1
+  nota: Texto oficial da Recomendação 001/2024
+- claim_id: C1
+  hypothesis_refs:
+  - H3
+  url: https://www.conjur.com.br/2025-set-04/juiza-proibe-plataforma-de-oferecer-servicos-privativos-da-advocacia/
+  tier: 2
+  nota: 'Precedente set/2025: plataforma B2C que estimava êxito + direcionava foi
+    proibida (multa R$20k) — define a linha'
+- claim_id: C1
+  hypothesis_refs:
+  - H3
+  url: https://www.migalhas.com.br/quentes/455537/advogados-socios-devem-garantir-supervisao-em-uso-de-ia-decide-oab-sp
+  tier: 2
+  nota: 'OAB/SP: responsabilidade de supervisão recai no advogado-sócio, não no fornecedor'
+- claim_id: C1
+  hypothesis_refs:
+  - H3
+  url: https://atos.cnj.jus.br/atos/detalhar/6001
+  tier: 1
+  nota: CNJ Res. 615/2025 — regula IA no Judiciário; NÃO alcança B2B privado (delimita
+    escopo)
+- claim_id: C6
+  hypothesis_refs:
+  - H5
+  url: https://lawinnovation.com.br/disputa-regulatoria-entre-oab-e-legaltechs-influenciara-futuro-da-advocacia-avalia-startup/
+  tier: 2
+  nota: OAB moveu 20+ ações contra legaltechs de captação; resultado misto (Resolvvi
+    ganhou)
+- claim_id: C6
+  hypothesis_refs:
+  - H5
+  url: https://napratica.org.br/noticias/3-legaltechs-brasileiras
+  tier: 2
+  nota: Freemium ~1,4% conversão (Nós 8) — N=1, modelo manual, sinal fraco contra
+    freemium escalável
+stack_validada: []

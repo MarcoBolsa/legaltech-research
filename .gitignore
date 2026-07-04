@@ -17,6 +17,13 @@ build/
 *.log
 logs/
 
+# Python (RILP Engine — Fase C)
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
 # IDE & OS (AIOX)
 .DS_Store
 Thumbs.db

@@ -1,0 +1,20 @@
+# Benchmark do Run #0 — input do kill check (Fase C — leva 3).
+# Notas transcritas de comparacao.md §1 (juiz independente, 2026-07-04):
+#   média A = 7.1 · média B = 9.1 · vencedor = B · kill NÃO dispara (CONTINUE).
+# O kill check é ORTOGONAL ao gate G2→3 (que reprova em 63,4%): aqui prova-se
+# que o PROTOCOLO tem valor (B vale R$500 e vence o baseline), não que o run avança.
+run_id: "run-000-legaltech"
+doc_a:
+  nome: "Doc A (baseline deep research nativo)"
+  rigor_evidencia: 7.5
+  auditabilidade: 6.0
+  honestidade_epistemica: 6.5
+  acionabilidade: 8.5
+  vale_500: true
+doc_b:
+  nome: "Doc B (síntese estratégica RILP)"
+  rigor_evidencia: 9.0
+  auditabilidade: 9.5
+  honestidade_epistemica: 9.5
+  acionabilidade: 8.5
+  vale_500: true

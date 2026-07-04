@@ -1,0 +1,70 @@
+# Domain Pack — schema documentado (não-executável, referência de leitura)
+#
+# Fonte da verdade: docs/FASE-C-SPEC.md §"Domain Pack" + RILP-v2.md §670-712.
+# Implementação canônica (pydantic 2): engine/rilp/domain_pack.py
+#   - DomainPackMeta / DomainPack: modelos
+#   - validate_pack(pack) -> list[str]: regra dos 2 estágios
+#   - build_partial_pack_from_run(...): builder do pack parcial
+#
+# Este arquivo documenta a FORMA do YAML gerado (ex.: domain-packs/legaltech-v1.yaml).
+# Não é consumido por código — é a documentação legível do contrato para quem
+# for ler/gerar/consumir um domain pack manualmente (ex.: futuro marketplace).
+
+meta:
+  domain: string            # ex.: "legaltech" — slug do domínio/vertical do run
+  version: string            # ex.: "1.0" — versão do pack dentro do domínio
+  stage: string               # "parcial" (n_runs>=1, uso interno) | "vendavel" (n_runs>=2, cross-domain)
+  run_ids: [string]           # ids dos runs que alimentaram o pack, em ordem cronológica
+  n_runs: int                 # quantidade de runs consolidados — trava do estágio "vendavel"
+  generated_at: string        # ISO date/timestamp de geração (opcional, default "")
+
+# Regra dos 2 estágios (RILP §708-710 + Princípio 5 "não generalizar com N=1"):
+#   stage == "vendavel" e n_runs < 2  ->  INVÁLIDO (validate_pack retorna erro)
+#   stage == "parcial"  e n_runs >= 1 ->  VÁLIDO
+#
+# Um pack PARCIAL nasce ao fim do P9 do próprio run — serve para o Run N+1 do
+# MESMO domínio começar mais fundo. Um pack VENDÁVEL só se consolida quando >=2
+# domínios/runs rodaram completos e o padrão cross-domain emerge de fato.
+
+hypotheses_validated:        # o que o mercado confirmou, extraído dos claims do run
+  - id: string                # id do claim de origem (ex.: "C1", "C5b")
+    enunciado: string          # resumo do enunciado do claim (truncado, honesto)
+    verdict: string            # veredito declarado no claims.yaml (ex.: "confirmada_com_restricao")
+    bucket: string             # "Alto" | "Médio" | "Baixo" — banda de confiança do claim
+    confianca: int              # ponto-âncora do bucket (Alto=90 · Médio=65 · Baixo=25)
+
+icp_real: {}                  # ICP testado com clientes reais — dict livre.
+                               # Se o run não coletou dado primário de campo, deve
+                               # conter {"status": "GAP — ..."} — nunca um ICP inventado.
+
+unit_econ_benchmark: {}        # unit economics reais do setor (CAC/LTV/churn/payback).
+                               # Sem dado de campo, sinaliza GAP explícito (Constitution
+                               # Art. IV — No Invention): nunca inventa número.
+
+vocabulario_cliente: [string]  # frases literais coletadas de clientes/mercado — vazio se
+                               # o run não fez coleta primária (survey/entrevista).
+
+failures_learned: [string]     # o que não funcionou e por quê (aprendizados de P4-P9).
+
+heatmap_regulatorio:           # mapa regulatório atualizado — só fontes Tier 1/2
+  - claim_id: string             # claim de origem (ex.: "C1", "C6")
+    hypothesis_refs: [string]    # refs de hipótese do claim (ex.: ["H3"], ["H5"])
+    url: string                   # url da fonte regulatória/jurídica
+    tier: int                     # 1 ou 2 apenas (nunca Tier 0/3 — GAP ou material de vendor)
+    nota: string                  # nota/contexto da fonte
+
+stack_validada: [string]       # ferramentas/stack técnica validada em produção real —
+                               # vazio se o run ainda não chegou a implementação (P4+).
+
+# Exemplo mínimo de um pack PARCIAL válido:
+#
+# meta:
+#   domain: legaltech
+#   version: "1.0"
+#   stage: parcial
+#   run_ids: [run-000-legaltech]
+#   n_runs: 1
+# hypotheses_validated: [...]
+# icp_real: {status: "GAP — ICP validado em campo requer dado primário"}
+# unit_econ_benchmark: {status: "GAP — CAC/LTV/churn ausentes no escopo documental P0→P2"}
+# heatmap_regulatorio: [...]

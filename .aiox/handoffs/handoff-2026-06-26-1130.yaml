@@ -1,0 +1,34 @@
+session_date: "2026-06-26T11:30:00"
+project: legaltech-research
+agent: aiox-master (Orion)
+branch: refundacao/dedup-aiox-claude-md
+
+stories_active: []
+
+decisions:
+  - "RILP-v2.md é o documento canônico do projeto — PROTOCOLO.md é referência histórica"
+  - "Visão confirmada: Opção B — RILP completo, sistema de inteligência estratégica + lançamento de negócio domain-agnostic"
+  - "3 camadas incorporadas: Launch (P0-P8) + Learn (P9 Loop) + Scale (Domain Packs + Venture Studio)"
+  - "Score de Confiança obrigatório por claim nos artefatos do P2"
+  - "P9 Loop de Retroalimentação adicionado — fecha o ciclo de aprendizado"
+  - "Domain Packs como produto comercializável após cada run"
+  - "README.md está desatualizado (versão pré-RILP) — não substituído ainda, Marco decidirá o que fazer"
+
+files_modified:
+  - RILP-v2.md (criado — protocolo expandido v2.0, 1300+ linhas, 15+ diagramas Mermaid)
+  - docs/OPERATIONAL-BLUEPRINT.md (criado — blueprint operacional completo, 8 seções)
+
+blockers:
+  - "Branch refundacao/dedup-aiox-claude-md ainda não mergeada em main — link do GitHub não resolve em main ainda"
+  - "runs/run-001-legaltech/ não criada — estrutura de pastas pendente"
+  - "docs/stories/ não existe — Story P0.1 não criada"
+  - "docs/A-FAZER.md com seção ATACAR AGORA vazia"
+
+next_step: |
+  1. Marco lê RILP-v2.md e OPERATIONAL-BLUEPRINT.md e valida/ajusta o conteúdo
+  2. Fechar branch refundacao/dedup-aiox-claude-md → main via @devops (gh pr create + merge)
+  3. Criar runs/run-001-legaltech/ com MANIFEST.yaml + domain-pack.yaml
+  4. Criar Story P0.1 — Epistemologia LegalTech (via @sm)
+  5. Popular docs/A-FAZER.md seção ATACAR AGORA
+  6. Executar P0 com @analyst em modo YOLO (Opus/high)
+consumed: true
