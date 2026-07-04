@@ -1,0 +1,73 @@
+# Schema comentado da rubrica de benchmark RILP × baseline (Fase C — leva 2).
+#
+# Fonte da verdade: docs/FASE-C-SPEC.md §"Rubrica de benchmark" +
+# runs/run-000-legaltech/comparacao.md §1 e §5.
+#
+# Este arquivo cumpre dois papéis:
+#   1. Documenta o schema esperado por `rilp.benchmark.BenchmarkInput`.
+#   2. Serve de TEMPLATE: copie a seção `template` abaixo para um
+#      `benchmark.yaml` novo e preencha com as notas do juiz.
+#
+# Carregamento: BenchmarkInput.from_yaml("caminho/benchmark.yaml")
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SCHEMA (campos aceitos e regras)
+# ─────────────────────────────────────────────────────────────────────────────
+schema:
+  run_id: "str — identificador do run avaliado (ex.: 'run-000-legaltech')"
+  doc_a:
+    nome: "str — nome do documento baseline (ex.: 'Doc A (baseline)')"
+    rigor_evidencia: "float 0..10 — rastreabilidade e triangulação das fontes"
+    auditabilidade: "float 0..10 — um terceiro consegue recalcular o veredito?"
+    honestidade_epistemica: "float 0..10 — recusa calibrada vs. overreach"
+    acionabilidade: "float 0..10 — dá para agir/decidir a partir do doc?"
+    vale_500: "bool — passa no teste do comprador (vale R$500)?"
+  doc_b:
+    "<mesmos campos de doc_a, para o documento RILP>": null
+
+# Regras de negócio (aplicadas por rilp.benchmark.evaluate):
+#   - media = média aritmética dos 4 critérios (rigor, auditabilidade,
+#     honestidade, acionabilidade), arredondada a 1 casa decimal.
+#   - vencedor = maior média; "empate" se |media_a - media_b| < 0.1.
+#   - KILL dispara se: NÃO doc_b.vale_500  OU  media_b <= media_a.
+#     Caso contrário: CONTINUE.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TEMPLATE (copie para benchmark.yaml e preencha)
+# ─────────────────────────────────────────────────────────────────────────────
+template:
+  run_id: "run-XXX-nome-do-run"
+  doc_a:
+    nome: "Doc A (baseline)"
+    rigor_evidencia: 0.0
+    auditabilidade: 0.0
+    honestidade_epistemica: 0.0
+    acionabilidade: 0.0
+    vale_500: false
+  doc_b:
+    nome: "Doc B (RILP)"
+    rigor_evidencia: 0.0
+    auditabilidade: 0.0
+    honestidade_epistemica: 0.0
+    acionabilidade: 0.0
+    vale_500: false
+
+# ─────────────────────────────────────────────────────────────────────────────
+# EXEMPLO REAL (Run #0 — reproduz comparacao.md §1: média A=7,1 · B=9,1 · vence B)
+# ─────────────────────────────────────────────────────────────────────────────
+exemplo_run_000:
+  run_id: "run-000-legaltech"
+  doc_a:
+    nome: "Doc A (baseline deep research)"
+    rigor_evidencia: 7.5
+    auditabilidade: 6.0
+    honestidade_epistemica: 6.5
+    acionabilidade: 8.5
+    vale_500: true
+  doc_b:
+    nome: "Doc B (síntese estratégica RILP)"
+    rigor_evidencia: 9.0
+    auditabilidade: 9.5
+    honestidade_epistemica: 9.5
+    acionabilidade: 8.5
+    vale_500: true

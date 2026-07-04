@@ -1,0 +1,17 @@
+# Fixture de teste — reproduz o veredito real do Run #0 (comparacao.md §1).
+# média A = 7.1 · média B = 9.1 · vencedor = B · kill NÃO dispara.
+run_id: "run-000-legaltech"
+doc_a:
+  nome: "Doc A (baseline deep research)"
+  rigor_evidencia: 7.5
+  auditabilidade: 6.0
+  honestidade_epistemica: 6.5
+  acionabilidade: 8.5
+  vale_500: true
+doc_b:
+  nome: "Doc B (síntese estratégica RILP)"
+  rigor_evidencia: 9.0
+  auditabilidade: 9.5
+  honestidade_epistemica: 9.5
+  acionabilidade: 8.5
+  vale_500: true
