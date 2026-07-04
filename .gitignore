@@ -41,3 +41,7 @@ Thumbs.db
 .codex/
 .kimi/
 .antigravity/
+
+# --- AIOX tooling/runtime local gerado (2026-07-04) ---
+.aiox/house/
+squads/
