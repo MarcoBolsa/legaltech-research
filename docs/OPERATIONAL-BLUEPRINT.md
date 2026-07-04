@@ -368,17 +368,17 @@ flowchart TB
 
 | Componente | Status | Notas |
 |---|---|---|
-| RILP-v2.md | ✅ Done | Documento principal criado 2026-06-26 |
+| RILP-v2.md | ✅ Done | Pós-Fase A 2026-07-04: fórmula do score, gates 2-tier, critério de kill, run mínimo viável |
 | PROTOCOLO.md (v1) | ✅ Done | Referência histórica — v2 é o canônico |
-| docs/OPERATIONAL-BLUEPRINT.md | ✅ Done | Este arquivo |
-| docs/A-FAZER.md | 🟡 Em progresso | Template criado, seção ATACAR AGORA vazia |
-| Branch refundacao/ | 🔴 Bloqueado | Precisa fechar → main antes de executar |
-| runs/run-001-legaltech/ | 🔴 Bloqueado | Estrutura não criada |
-| docs/stories/ P0.1 | 🔴 Bloqueado | Story não criada |
-| P0 — Epistemologia | 🔒 Aguardando gate | Dependência: story P0.1 + branch mergeada |
-| P1 — Inteligência | 🔒 Aguardando gate | Dependência: P0 PASS |
-| P2 → P9 | 🔒 Aguardando gate | Dependência: pipeline sequencial |
-| Domain Pack LegalTech | 🔒 Aguardando gate | Dependência: P9 completo |
+| docs/RADIOGRAFIA-2026-07-04.md | ✅ Done | Diagnóstico multi-agente — veredicto abacaxi-com-sementes |
+| docs/PLANO-YOLO-RUN000.md | ✅ Done | Plano congelado — Fases A/B concluídas, C pendente |
+| **Run #0 (P0→P2 LegalTech)** | ✅ Done | **PRIMEIRO RUN EXECUTADO** — `runs/run-000-legaltech/`, 12 artefatos |
+| Comparação vs baseline | ✅ Done | RILP vence com diferença CLARA — kill NÃO disparado |
+| Gate G2→3 do run LegalTech | 🔒 Aguardando gate | 63,4% < 70% — H2/H5 exigem dado de campo (experimentos primários) |
+| Fase C — programação | 🔴 Bloqueado | Aguarda decisão do Marco (parada §33.5-d) |
+| Branch refundacao/ → main | 🟡 Em progresso | Pendente, FORA do caminho crítico (DECISIONS 2026-07-04) |
+| P3 → P9 do run LegalTech | 🔒 Aguardando gate | Dependência: G2→3 PASS (experimentos H2/H5) |
+| Domain Pack LegalTech (parcial) | 🔒 Aguardando gate | Nasce no P9; vendável só com ≥2 runs |
 
 ---
 
@@ -386,25 +386,22 @@ flowchart TB
 
 ```mermaid
 flowchart TD
-    A["🔴 HOJE\nFechar branch refundacao/\n→ main via @devops PR"]:::urgent
+    A["🔴 AGORA\nMarco lê comparacao.md\n+ sintese-estrategica.md\n(resultado Run #0)"]:::urgent
 
-    A --> B["🔴 HOJE\nCriar runs/run-001-legaltech/\n+ estrutura de pastas\n(p0...p9, gates, handoffs, decisions)"]:::urgent
+    A --> B{"Decisão Marco\nLiberar Fase C?"}:::gate
 
-    B --> C["🔴 HOJE\nCriar Story P0.1\n'Epistemologia LegalTech'\nStatus: InProgress"]:::urgent
+    B -->|SIM| C["🟡 Fase C leva 1\nScore engine +\nBenchmark harness\n(YOLO, Sonnet/Opus)"]:::next
+    C --> D["🟡 Fase C leva 2\nDomain Pack schema\n+ Runner P0→P2"]:::next
 
-    C --> D["🟡 PRÓXIMA SESSÃO\nExecutar P0\n@analyst + Opus/high\nYOLO mode"]:::next
+    B -->|paralelo| E["📋 Experimentos de campo\nH2 (unit economics)\nH5 (canal de aquisição)"]:::p1
 
-    D --> E{"Gate 0→1\nHipóteses\nfalsificáveis?"}:::gate
+    E --> F{"Gate 2→3\nre-teste\nScore ≥ 70%?"}:::gate
+    F -->|PASS| G["⚗️ Run LegalTech\nprossegue P3+\n(decisão de negócio)"]:::p2
 
-    E -->|PASS| F["📋 P1 — 7 camadas\nparalelas\n@deep-research + Haiku/low\nauto-dispatch"]:::p1
+    D --> H["🏁 Fim horizonte:\nRILP com diferenciais\nprogramados + run validado"]:::startend
+    G --> H
 
-    F --> G{"Gate 1→2\nDados\nsuficientes?"}:::gate
-
-    G -->|PASS| H["⚗️ P2 — Síntese\nSonnet/medium\n+ Opus/high bias audit"]:::p2
-
-    H --> I{"Gate 2→3\nScore ≥ 70%?"}:::gate
-
-    I -->|PASS| END["🏁 Fim do\nhorizonte 30 dias\nP3 em andamento"]:::startend
+    I["🟢 Housekeeping\nMerge refundacao/ → main\nvia PR @devops (§0-f)"]:::next
 
     classDef urgent fill:#D0021B,stroke:#A80017,color:#fff,font-weight:bold
     classDef next fill:#F5A623,stroke:#D4891E,color:#1A1A1A,font-weight:bold
@@ -416,6 +413,6 @@ flowchart TD
 
 ---
 
-*Blueprint atualizado em 2026-06-26 por Orion (aiox-master)*
+*Blueprint atualizado em 2026-07-04 por Orion (aiox-master)*
 *Fonte de verdade: https://github.com/MarcoBolsa/legaltech-research/blob/main/docs/OPERATIONAL-BLUEPRINT.md*
 *(link ativo após merge da branch refundacao/ → main)*

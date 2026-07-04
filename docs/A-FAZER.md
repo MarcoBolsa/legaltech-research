@@ -11,9 +11,9 @@
 
 ## 🔥 ATACAR AGORA (topo da pilha — máx. 3)
 
-1. 🔴 **Fase A — Cirurgia RILP-v2.md** (5 correções, sem reescrita) · [PLANO-YOLO-RUN000.md](https://github.com/MarcoBolsa/legaltech-research/blob/run-000-legaltech/docs/PLANO-YOLO-RUN000.md) · em execução YOLO
-2. 🔴 **Fase B — Run #0 LegalTech (P0→P2 + baseline + comparação)** · timebox 7 dias · critério de kill vigente
-3. 🟡 **Marco revisar resultado do Run #0** → decide kill/continue e libera Fase C (programação)
+1. 🔴 **Marco lê o resultado do Run #0** — [comparacao.md](https://github.com/MarcoBolsa/legaltech-research/blob/run-000-legaltech/runs/run-000-legaltech/comparacao.md) + [sintese-estrategica.md](https://github.com/MarcoBolsa/legaltech-research/blob/run-000-legaltech/runs/run-000-legaltech/p2/sintese-estrategica.md) — RILP venceu o baseline (diferença clara), kill NÃO disparado
+2. 🔴 **Marco decide Fase C** (programação: score engine + benchmark harness primeiro) · [PLANO-YOLO-RUN000.md](https://github.com/MarcoBolsa/legaltech-research/blob/run-000-legaltech/docs/PLANO-YOLO-RUN000.md) · recomendação: liberar
+3. 🟡 **Experimentos de campo H2 (economia) + H5 (canal)** — o gate G2→3 reprovou por falta de dado primário; entrada em legaltech é condicional a eles
 
 ---
 
@@ -51,11 +51,12 @@
 
 ## ✅ FEITO RECENTEMENTE
 
-### 2026-07-04 — Radiografia + plano YOLO Run #0
+### 2026-07-04 — Radiografia + Fases A e B executadas (PRIMEIRO RUN DA HISTÓRIA DO PROJETO)
 - ✅ Radiografia multi-agente (15 agentes, 4 fases) → `docs/RADIOGRAFIA-2026-07-04.md` — veredicto: abacaxi-com-sementes
 - ✅ Plano YOLO congelado → `docs/PLANO-YOLO-RUN000.md` (Fases A/B/C + critério de kill)
 - ✅ DECISIONS.md: decisão 2026-07-04 com 2 reversões explícitas (merge-first; tudo-ou-nada)
-- ✅ Branch `run-000-legaltech` criada
+- ✅ **Fase A** (92a8a6b): 5 cirurgias no RILP-v2 — fórmula do score, gates 2-tier, domain pack 2 estágios, critério de kill, run mínimo viável
+- ✅ **Fase B** (63ce814): Run #0 completo — 12 artefatos em `runs/run-000-legaltech/`; score 63,4%, gate G2→3 não passa (honesto); juiz: RILP vence baseline com diferença CLARA; kill NÃO disparado → CONTINUE
 
 ### 2026-06-26 — Sessão de reanálise e expansão RILP v2.0
 - ✅ Auditoria global do projeto (workflow 6 agentes paralelos)

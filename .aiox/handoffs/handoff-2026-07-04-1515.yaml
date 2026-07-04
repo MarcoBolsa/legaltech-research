@@ -1,0 +1,46 @@
+generated_at: 2026-07-04T15:15:28-03:00
+session_date: 2026-07-04T15:15:28-03:00
+project: legaltech-research
+agent: aiox-master (Orion)
+branch: run-000-legaltech
+
+stories_active:
+  - id: "Fase C (PLANO-YOLO-RUN000)"
+    status: "Aguardando decisão do Marco (parada legítima §33.5-d)"
+    last_task: "Run #0 completo + comparação vs baseline commitados (63ce814)"
+
+decisions:
+  - "Radiografia 15 agentes → veredicto abacaxi-com-sementes (docs/RADIOGRAFIA-2026-07-04.md)"
+  - "Plano YOLO 3 fases congelado (docs/PLANO-YOLO-RUN000.md) — reverteu merge-first e tudo-ou-nada (ver DECISIONS.md 2026-07-04)"
+  - "Fase A: 5 cirurgias no RILP-v2 (fórmula score 90/65/25, gates 2-tier, domain pack 2 estágios, critério de kill, run mínimo viável)"
+  - "Fase B: Run #0 executado — score 63,4%, gate G2→3 NÃO PASSA (H2/H5 exigem dado de campo); juiz: RILP vence baseline com diferença CLARA; kill NÃO disparado → CONTINUE"
+
+files_modified:
+  - RILP-v2.md (Fase A — 60 inserções)
+  - docs/RADIOGRAFIA-2026-07-04.md (novo)
+  - docs/PLANO-YOLO-RUN000.md (novo — plano congelado)
+  - docs/DECISIONS.md (decisão 2026-07-04 com 2 reversões)
+  - docs/A-FAZER.md
+  - runs/run-000-legaltech/** (12 artefatos — MANIFEST, p0, p1×5, p2×3, baseline, comparacao)
+
+blockers:
+  - "Fase C bloqueada por decisão do Marco (exigência do plano congelado)"
+  - "Branch refundacao/dedup-aiox-claude-md (6 commits) ainda sem merge — fora do caminho crítico, mas pendente"
+
+next_step: |
+  1. Marco lê runs/run-000-legaltech/comparacao.md e p2/sintese-estrategica.md
+  2. Marco decide: liberar Fase C (recomendação: sim, iniciando por score engine + benchmark harness)
+  3. Se liberada: executar Fase C em YOLO na branch run-000-legaltech (ou nova branch fase-c)
+  4. Pendências paralelas: merge refundacao/ → main; experimentos de campo H2 (economia) e H5 (canal) do run LegalTech
+
+resume_prompt: |
+  /AIOX:agents:aiox-master
+  Retomada legaltech-research (sessão 2026-07-04). Branch: run-000-legaltech (pushada).
+  Contexto: plano YOLO congelado em docs/PLANO-YOLO-RUN000.md — Fases A (cirurgia RILP-v2) e B (Run #0
+  P0→P2 LegalTech + baseline + juiz) CONCLUÍDAS e commitadas (92a8a6b, 63ce814). Resultado: score 63,4%,
+  gate G2→3 não passou (honesto — H2 economia e H5 canal pedem dado de campo); juiz deu vitória CLARA ao
+  RILP sobre deep research nativo; critério de kill NÃO disparado → CONTINUE.
+  Estou parado na parada legítima §33.5-d aguardando minha decisão sobre a Fase C (programação: score
+  engine + benchmark harness primeiro). Minha decisão é: [LIBERAR / AJUSTAR / NÃO LIBERAR].
+  Se liberar: seguir YOLO conforme Fase C do plano congelado, commit por leva, sem me parar fora das
+  5 paradas legítimas.
