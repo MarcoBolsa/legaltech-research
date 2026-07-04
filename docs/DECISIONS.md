@@ -44,3 +44,23 @@
 **Decisão:** Fechar `refundacao/dedup-aiox-claude-md` → `main` via PR antes de criar qualquer story ou iniciar qualquer pilar do RILP.
 
 **Consequências:** Bloqueia início da execução até o merge ser feito via @devops.
+
+---
+
+## [2026-07-04] — Radiografia multi-agente + aprovação do plano Cirurgia A → Run #0 → Programação
+
+**Contexto:** Marco pediu radiografia completa do sistema ("diamante ou abacaxi?"). Workflow de 15 agentes (inventário Haiku → análise 5D Sonnet → refutação adversarial Opus → síntese Opus) produziu `docs/RADIOGRAFIA-2026-07-04.md`. Veredicto: **abacaxi-com-sementes** — protocolo coerente, execução zero em 46 dias, paralisia causada por over-engineering de processo e escopo tudo-ou-nada.
+
+**Decisão:** Plano YOLO em 3 fases congelado em `docs/PLANO-YOLO-RUN000.md`: (A) cirurgia mínima de 5 inconsistências no RILP-v2.md; (B) Run #0 = P0→P2 em LegalTech, timeboxado, com teste lado-a-lado contra deep research nativo e critério de kill escrito antes de começar; (C) programação dos diferenciais (score engine, domain pack schema, benchmark harness) SÓ após Marco revisar o resultado da Fase B.
+
+**Reversões explícitas de decisões de 2026-06-26 (aprovadas por Marco em 2026-07-04):**
+1. ~~"Branch refundacao/ deve ser mergeada antes de executar P0"~~ → **REVERTIDA.** O merge é higiene de config, não pré-requisito de pesquisa. Run #0 roda na branch `run-000-legaltech`. O merge da `refundacao/` segue pendente, fora do caminho crítico.
+2. ~~"Opção C (RILP parcial) dilui o diferencial"~~ → **SUPERADA.** O Run #0 (P0→P2) não é redução de escopo do produto — é geração da prova que o produto completo precisa para existir. A radiografia demonstrou que o tudo-ou-nada garantiu 46 dias de execução zero.
+
+**Alternativas descartadas:**
+- Proposta original de Marco (atualizar todos os docs + programar 100% antes de rodar) — repetiria o padrão v1→v2 de reescrita-como-procrastinação; programar antes do primeiro run especifica por especulação.
+- Rodar Run #0 em consórcios — confounder de conhecimento tácito do operador; LegalTech testa o motor autônomo de verdade.
+
+**Consequências:**
+- Congelamento de doutrina: nenhuma edição em RILP-v2/blueprint além das 5 correções da Fase A até o Run #0 produzir output.
+- Critério de kill vigente (ver PLANO-YOLO-RUN000.md) — se o output não superar visivelmente o baseline, RILP-9-pilares é descontinuado como produto e vira ferramenta interna P0→P2.

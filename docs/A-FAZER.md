@@ -4,16 +4,16 @@
 > Atualizado ao final de cada sessão: o que foi feito, o que falta (em prioridade) e o que entrou de novo.
 > Não duplica os docs vivos do projeto — **referencia**.
 
-**Última atualização:** 2026-06-26 · @orion (encerramento de sessão)
+**Última atualização:** 2026-07-04 · @orion (plano YOLO Run #0 congelado)
 **Legenda prioridade:** 🔴 P0 (urgente/bloqueia) · 🟡 P1 (importante, esta semana) · 🟢 P2 (quando der)
 
 ---
 
 ## 🔥 ATACAR AGORA (topo da pilha — máx. 3)
 
-1. 🔴 **Validar RILP-v2.md** — Marco lê e dá OK (ou ajusta) antes de qualquer execução · [RILP-v2.md](https://github.com/MarcoBolsa/legaltech-research/blob/refundacao/dedup-aiox-claude-md/RILP-v2.md)
-2. 🔴 **Fechar branch `refundacao/` → `main`** — via @devops (`gh pr create + merge`) · bloqueia tudo abaixo
-3. 🔴 **Criar Story P0.1 + estrutura `runs/run-001-legaltech/`** — via @sm + @orion · pré-requisito para iniciar P0
+1. 🔴 **Fase A — Cirurgia RILP-v2.md** (5 correções, sem reescrita) · [PLANO-YOLO-RUN000.md](https://github.com/MarcoBolsa/legaltech-research/blob/run-000-legaltech/docs/PLANO-YOLO-RUN000.md) · em execução YOLO
+2. 🔴 **Fase B — Run #0 LegalTech (P0→P2 + baseline + comparação)** · timebox 7 dias · critério de kill vigente
+3. 🟡 **Marco revisar resultado do Run #0** → decide kill/continue e libera Fase C (programação)
 
 ---
 
@@ -43,13 +43,19 @@
 
 | Item | Espera | Quem destrava |
 |------|--------|---------------|
-| Execução P0 | Merge branch + story P0.1 criada | @devops + Marco |
-| Execução P1 | Gate 0→1 aprovado | Marco |
-| Domain Pack LegalTech v1 | Run #1 completo (P0-P9) | Pipeline RILP |
+| Fase C (programação) | Revisão do Run #0 por Marco | Marco (decisão kill/continue) |
+| Merge `refundacao/` → main | Fora do caminho crítico (D-2026-07-04) | @devops + OK Marco (§0-f) |
+| Domain Pack LegalTech v1 | Run completo (P0-P9) — só se Run #0 passar no kill | Pipeline RILP |
 
 ---
 
 ## ✅ FEITO RECENTEMENTE
+
+### 2026-07-04 — Radiografia + plano YOLO Run #0
+- ✅ Radiografia multi-agente (15 agentes, 4 fases) → `docs/RADIOGRAFIA-2026-07-04.md` — veredicto: abacaxi-com-sementes
+- ✅ Plano YOLO congelado → `docs/PLANO-YOLO-RUN000.md` (Fases A/B/C + critério de kill)
+- ✅ DECISIONS.md: decisão 2026-07-04 com 2 reversões explícitas (merge-first; tudo-ou-nada)
+- ✅ Branch `run-000-legaltech` criada
 
 ### 2026-06-26 — Sessão de reanálise e expansão RILP v2.0
 - ✅ Auditoria global do projeto (workflow 6 agentes paralelos)
