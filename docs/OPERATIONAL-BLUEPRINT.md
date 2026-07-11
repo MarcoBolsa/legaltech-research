@@ -371,11 +371,11 @@ flowchart TB
 | RILP-v2.md | ✅ Done | Pós-Fase A 2026-07-04: fórmula do score, gates 2-tier, critério de kill, run mínimo viável |
 | PROTOCOLO.md (v1) | ✅ Done | Referência histórica — v2 é o canônico |
 | docs/RADIOGRAFIA-2026-07-04.md | ✅ Done | Diagnóstico multi-agente — veredicto abacaxi-com-sementes |
-| docs/PLANO-YOLO-RUN000.md | ✅ Done | Plano congelado — Fases A/B concluídas, C pendente |
+| docs/PLANO-YOLO-RUN000.md | ✅ Done | Plano congelado — Fases A/B/C todas concluídas |
 | **Run #0 (P0→P2 LegalTech)** | ✅ Done | **PRIMEIRO RUN EXECUTADO** — `runs/run-000-legaltech/`, 12 artefatos |
 | Comparação vs baseline | ✅ Done | RILP vence com diferença CLARA — kill NÃO disparado |
 | Gate G2→3 do run LegalTech | 🔒 Aguardando gate | 63,4% < 70% — H2/H5 exigem dado de campo (experimentos primários) |
-| Fase C — programação | 🔴 Bloqueado | Aguarda decisão do Marco (parada §33.5-d) |
+| **Fase C — RILP Engine (`engine/`)** | ✅ Done | **Score/gate/benchmark/domain-pack executáveis** (Python, 69 testes) — mergeado na main (PR #2, `3d43431`); `rilp run` reproduz o Run #0 |
 | Branch refundacao/ → main | 🟡 Em progresso | Pendente, FORA do caminho crítico (DECISIONS 2026-07-04) |
 | P3 → P9 do run LegalTech | 🔒 Aguardando gate | Dependência: G2→3 PASS (experimentos H2/H5) |
 | Domain Pack LegalTech (parcial) | 🔒 Aguardando gate | Nasce no P9; vendável só com ≥2 runs |
@@ -386,22 +386,17 @@ flowchart TB
 
 ```mermaid
 flowchart TD
-    A["🔴 AGORA\nMarco lê comparacao.md\n+ sintese-estrategica.md\n(resultado Run #0)"]:::urgent
+    A["✅ FEITO\nFase C — RILP Engine\nmergeado na main (PR #2)\n69 testes verdes"]:::startend
 
-    A --> B{"Decisão Marco\nLiberar Fase C?"}:::gate
+    A --> E["🔴 AGORA — o único caminho\nque muda o veredito 63,4%\nExperimentos de campo\nH2 (unit economics)\nH5 (canal de aquisição)"]:::urgent
 
-    B -->|SIM| C["🟡 Fase C leva 1\nScore engine +\nBenchmark harness\n(YOLO, Sonnet/Opus)"]:::next
-    C --> D["🟡 Fase C leva 2\nDomain Pack schema\n+ Runner P0→P2"]:::next
-
-    B -->|paralelo| E["📋 Experimentos de campo\nH2 (unit economics)\nH5 (canal de aquisição)"]:::p1
-
-    E --> F{"Gate 2→3\nre-teste\nScore ≥ 70%?"}:::gate
+    E --> F{"Gate 2→3 re-teste\n(alimentar o engine rilp)\nScore ≥ 70%?"}:::gate
     F -->|PASS| G["⚗️ Run LegalTech\nprossegue P3+\n(decisão de negócio)"]:::p2
 
-    D --> H["🏁 Fim horizonte:\nRILP com diferenciais\nprogramados + run validado"]:::startend
-    G --> H
-
+    B["🟡 Dívidas técnicas do engine\nPiso do gate: arredondado vs estrito\npytest-cov no CI"]:::next
     I["🟢 Housekeeping\nMerge refundacao/ → main\nvia PR @devops (§0-f)"]:::next
+
+    G --> H["🏁 Fim horizonte:\nRILP validado + entrada\nem legaltech decidida\ncom dado real"]:::startend
 
     classDef urgent fill:#D0021B,stroke:#A80017,color:#fff,font-weight:bold
     classDef next fill:#F5A623,stroke:#D4891E,color:#1A1A1A,font-weight:bold
@@ -413,6 +408,5 @@ flowchart TD
 
 ---
 
-*Blueprint atualizado em 2026-07-04 por Orion (aiox-master)*
+*Blueprint atualizado em 2026-07-04 (tarde, pós-Fase C) por Orion (aiox-master)*
 *Fonte de verdade: https://github.com/MarcoBolsa/legaltech-research/blob/main/docs/OPERATIONAL-BLUEPRINT.md*
-*(link ativo após merge da branch refundacao/ → main)*

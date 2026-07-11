@@ -1,0 +1,42 @@
+generated_at: 2026-07-04T18:07:26-03:00
+session_date: 2026-07-04T18:07:26-03:00
+project: legaltech-research
+agent: aiox-master (Orion)
+branch: run-000-legaltech
+pipeline_id: run-000-legaltech
+
+stories_active:
+  - id: "Fase C (PLANO-YOLO-RUN000)"
+    status: "CONCLUÍDA e CONSOLIDADA na main (PR #2 mergeado, commit 3d43431)"
+    last_task: "Encerramento: memória, handoff, A-FAZER, blueprint, push do gitignore"
+
+decisions:
+  - "Fase C entregue em YOLO (4 levas, model routing §32) e mergeada na main via PR #2 (merge commit, histórico das fases preservado)"
+  - "Stack Python 3.12 + pydantic 2; engine = harness determinístico (não pipeline de LLM); gate G2→3 e kill criterion ortogonais. Ver DECISIONS.md 2026-07-04 + FASE-C-SPEC.md"
+  - ".aiox/house/ e squads/ gitignorados (tooling/runtime AIOX local, não conteúdo do projeto)"
+
+files_modified:
+  - engine/** (RILP Engine completo — models/scoring/domain_pack/benchmark/runner/cli + 69 testes)
+  - domain-packs/legaltech-v1.yaml · runs/run-000-legaltech/baseline/benchmark.yaml
+  - docs/FASE-C-SPEC.md · docs/DECISIONS.md · docs/A-FAZER.md · docs/OPERATIONAL-BLUEPRINT.md · .gitignore
+
+blockers:
+  - "Nenhum. main sincronizada (3d43431). Branch run-000-legaltech 1 commit à frente da main (gitignore pós-merge) — higiene, não bloqueia."
+
+next_step: |
+  O próximo movimento REAL não é código — é dado de campo:
+  1. H2 (economia): benchmark de CAC/LTV/churn de SaaS jurídico BR (entrevista de 2-3 fundadores ou dado privado)
+  2. H5 (canal): teste de custo real de aquisição de ~10 advogados de UMA vertical via conteúdo/comunidade
+  Fechados os dois, alimentar o engine (rilp) e recalcular o gate G2→3.
+  Decisões de produto abertas: piso do gate arredondado vs estrito; pytest-cov no CI.
+
+resume_prompt: |
+  /AIOX:agents:aiox-master
+  Retomada legaltech-research. Fase C (RILP Engine em Python) CONCLUÍDA e MERGEADA na main (PR #2,
+  commit 3d43431). Código em engine/ (69 testes verdes, `rilp run` reproduz Run #0: 63,4%/FAIL/CONTINUE).
+  Ver docs/FASE-C-SPEC.md + DECISIONS.md 2026-07-04. NÃO há mais código pendente do protocolo.
+  Próximo movimento real = experimentos de campo H2 (economia/CAC-LTV) e H5 (canal) — trabalho de campo,
+  não de agente; é o único caminho que muda o veredito 63,4%. Dívidas: piso do gate (arredondado vs
+  estrito), pytest-cov no CI, branch refundacao/ pendente de merge.
+
+consumed: false

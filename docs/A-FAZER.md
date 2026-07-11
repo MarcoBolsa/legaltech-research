@@ -4,16 +4,24 @@
 > Atualizado ao final de cada sessão: o que foi feito, o que falta (em prioridade) e o que entrou de novo.
 > Não duplica os docs vivos do projeto — **referencia**.
 
-**Última atualização:** 2026-07-04 · @orion (Fase C entregue — RILP Engine em Python, 69 testes verdes)
+**Última atualização:** 2026-07-11 · @orion (adendo pré-Run#0 na RADIOGRAFIA; avaliado e descartado Brownfield Discovery — docs vivos e frescos)
 **Legenda prioridade:** 🔴 P0 (urgente/bloqueia) · 🟡 P1 (importante, esta semana) · 🟢 P2 (quando der)
 
 ---
 
 ## 🔥 ATACAR AGORA (topo da pilha — máx. 3)
 
-1. 🔴 **Marco revisa o RILP Engine da Fase C** — [engine/](https://github.com/MarcoBolsa/legaltech-research/tree/run-000-legaltech/engine) (score/gates/benchmark/domain-pack executáveis, `rilp run` reproduz o Run #0) + [FASE-C-SPEC.md](https://github.com/MarcoBolsa/legaltech-research/blob/run-000-legaltech/docs/FASE-C-SPEC.md) · 2 decisões pendentes: piso do gate arredondado vs estrito; adicionar `pytest-cov` ao CI
-2. 🔴 **Experimentos de campo H2 (economia) + H5 (canal)** — o gate G2→3 reprovou por falta de dado primário; entrada em legaltech é condicional a eles (o único caminho que muda o veredito 63,4%)
-3. 🟡 **Decidir consolidação para `main`** — 4 commits da Fase C + branch `refundacao/` pendente; abrir PR quando Marco validar o engine
+1. 🔴 **Experimentos de campo H2 (economia/CAC-LTV) + H5 (canal)** — o único caminho que muda o veredito 63,4%; fora do escopo P0→P2. Entrevista de 2-3 fundadores + teste de aquisição de ~10 advogados de UMA vertical. O engine (`rilp`) já ingere esses números quando existirem.
+2. 🟡 **Decidir 2 dívidas técnicas do engine** — piso do gate arredondado (atual) vs estrito · adicionar `pytest-cov` ao CI (@devops). Ver [FASE-C-SPEC.md](https://github.com/MarcoBolsa/legaltech-research/blob/main/docs/FASE-C-SPEC.md)
+3. 🟢 **Merge `refundacao/dedup-aiox-claude-md` → main** (6 commits, fora do caminho crítico)
+
+## ✅ FEITO (sessão 2026-07-11)
+- **Avaliado Brownfield Discovery → descartado.** Docs vivos frescos e verificados (blueprint pós-Fase C está correto; RADIOGRAFIA verificada contra disco). Rodar as 10 fases seria retrabalho e alimentaria o anti-padrão diagnosticado (doc em vez de execução).
+- **Adendo pré-Run#0 na RADIOGRAFIA** — corpo preservado como história; topo agora marca que Run #0 + teste lado-a-lado + engine aconteceram (o que a própria radiografia exigia), e o que sobrevive (n=1, dado de campo H2/H5 segue sendo o gate). Verificado: 69 testes verdes, `rilp run` reproduz 63,4%/FAIL/CONTINUE.
+
+## ✅ FEITO (sessão 2026-07-04, tarde)
+- **Fase C — RILP Engine executável** entregue em 4 levas (YOLO, model routing §32) e **mergeada na main** (PR #2, commit 3d43431). `engine/` Python: score/gate/trilha de auditoria, domain pack 2-estágios, benchmark harness, runner P0→P2 + CLI `rilp`. 69 testes verdes, ruff limpo. `rilp run` reproduz o Run #0 (63,4%/FAIL/CONTINUE). QA adversarial corrigiu bug HIGH de ponto-flutuante no benchmark.
+- `.aiox/house/` e `squads/` gitignorados (tooling AIOX local).
 
 ---
 
