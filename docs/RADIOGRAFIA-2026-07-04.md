@@ -1,5 +1,21 @@
 # Radiografia RILP — LegalTech Run #1
 
+> ## ⏱️ ADENDO 2026-07-11 — este documento é um retrato PRÉ-Run#0
+>
+> O corpo abaixo foi escrito em **2026-07-04 13:29, ANTES da Fase C**. Preservado intacto como registro honesto do diagnóstico daquele momento — **mas o fato central mudou naquela mesma tarde.** A recomendação-âncora da radiografia (H1: "rodar um Run #0 timeboxado" + o "teste lado-a-lado", nomeado como "a jogada de maior alavancagem do projeto inteiro") **foi executada.**
+>
+> **O que mudou (verificado no disco em 2026-07-11):**
+> - **Execução não é mais zero.** `runs/run-000-legaltech/` contém P0→P2 real: `hypotheses.md`, 5 relatórios de P1, `claims.yaml` scoreado, síntese estratégica + bias-audit. O "mapa de território onde ninguém andou" foi andado no trecho P0→P2.
+> - **O teste decisivo lado-a-lado aconteceu.** Há `baseline/baseline-deep-research.md` + `comparacao.md`. Resultado registrado: a síntese RILP supera o baseline de deep research nativo (média 9,1 vs 7,1) — o **kill criterion NÃO disparou** → CONTINUE.
+> - **O score virou código executável e reproduzível.** Fase C entregou o `engine/` (RILP Engine, Python + pydantic, **69 testes verdes**), mergeado na `main` (PR #2, `3d43431`). `rilp run runs/run-000-legaltech` reproduz o veredito: **Score 63,4% · Gate G2→3 FAIL (< 70%) · Kill não disparado**. A "rubrica em prosa" da seção 3 agora é harness determinístico.
+>
+> **O que SOBREVIVE do diagnóstico abaixo (não foi invalidado):**
+> - **n=1.** Só LegalTech rodou; o critério de replicabilidade (≥2 domínios) da seção 6/H3 continua aberto.
+> - **Dado de campo ainda é o gate real.** O Gate FALHOU (63,4%) justamente porque os claims decisórios (C5b, C6) seguem em "Baixo" — faltam **H2 (unit economics real)** e **H5 (canal de aquisição)**, que são experimentos primários, não mais pesquisa de escrivaninha. O ponto de fundo da radiografia ("mais documentação não fecha a distância") permanece — só migrou de *"nunca rodou"* para *"rodou uma vez, e o próprio run diz que o próximo passo é campo, não doc"*.
+> - **Tese de produto ainda não provada**; comprador ainda não identificado (seção 6/H3 intacta).
+>
+> **Fonte de verdade do estado ATUAL:** [`docs/OPERATIONAL-BLUEPRINT.md`](https://github.com/MarcoBolsa/legaltech-research/blob/main/docs/OPERATIONAL-BLUEPRINT.md) §7-§8 (atualizado pós-Fase C). Leia a radiografia abaixo como **história**, não como estado corrente.
+
 ## 1. Veredicto
 
 **Abacaxi com sementes.** Hoje, sem eufemismo: é um abacaxi. 46 dias de vida, 989 linhas de protocolo (RILP-v2) + 421 de blueprint + DECISIONS + A-FAZER, e **zero linhas de pesquisa real** — `runs/`, `pesquisas/`, `sintese/`, `output/` contêm apenas `.gitkeep`. O sistema nunca rodou uma vez, nem no trecho mais barato (P0→P2, ~16-32h). Não existe produto, não existe prova de conceito, não existe um único artefato que um cliente pagaria para ler.
