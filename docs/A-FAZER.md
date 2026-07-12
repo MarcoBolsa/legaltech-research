@@ -11,13 +11,20 @@
 
 ## 🔥 ATACAR AGORA (topo da pilha — máx. 3)
 
-1. 🔴 **Experimentos de campo H2 (economia/CAC-LTV) + H5 (canal)** — o único caminho que muda o veredito 63,4%; fora do escopo P0→P2. Entrevista de 2-3 fundadores + teste de aquisição de ~10 advogados de UMA vertical. O engine (`rilp`) já ingere esses números quando existirem.
-2. 🟡 **Decidir 2 dívidas técnicas do engine** — piso do gate arredondado (atual) vs estrito · adicionar `pytest-cov` ao CI (@devops). Ver [FASE-C-SPEC.md](https://github.com/MarcoBolsa/legaltech-research/blob/main/docs/FASE-C-SPEC.md)
-3. 🟢 **Merge `refundacao/dedup-aiox-claude-md` → main** (6 commits, fora do caminho crítico)
+| # | Item | Frente | Story/Doc | Prioridade | Bloqueio / Próximo passo |
+|---|------|--------|-----------|-----------|--------------------------|
+| 1 | **DECISÃO DE DIREÇÃO pós-NO-GO** — reposicionar up-market (wedge de due diligence M&A) vs ferramenta interna vs outra vertical | 🟥 produto | [`VEREDITO-quadro-fechado`](https://github.com/MarcoBolsa/legaltech-research/blob/run-000-legaltech/docs/research/2026-07-11-rilp-produto-validacao/VEREDITO-quadro-fechado.md) | 🔴 P0 | Marco (decisão de produto §37) |
+| 2 | **Teste de campo barato (1 semana)** do wedge escolhido — validar demanda ANTES de PRD | 🟨 validação | (a criar após decisão) | 🟡 P1 | Depende do item 1 |
+| 3 | **Dívidas técnicas do engine** — piso do gate (arredondado vs estrito) · `pytest-cov` no CI | 🟦 engine | [`FASE-C-SPEC`](https://github.com/MarcoBolsa/legaltech-research/blob/main/docs/FASE-C-SPEC.md) | 🟢 P2 | Só relevante se RILP seguir como produto |
+
+**Recomendação:** atacar o **item 1** primeiro — as duas lentes de pesquisa (nosso time + Gemini) reprovaram o RILP como definido; sem a decisão de direção do Marco, itens 2-3 ficam sem alvo. Sugestão do Orion: direção "reposicionar up-market" + teste de campo antes do PRD.
 
 ## ✅ FEITO (sessão 2026-07-11)
-- **Avaliado Brownfield Discovery → descartado.** Docs vivos frescos e verificados (blueprint pós-Fase C está correto; RADIOGRAFIA verificada contra disco). Rodar as 10 fases seria retrabalho e alimentaria o anti-padrão diagnosticado (doc em vez de execução).
-- **Adendo pré-Run#0 na RADIOGRAFIA** — corpo preservado como história; topo agora marca que Run #0 + teste lado-a-lado + engine aconteceram (o que a própria radiografia exigia), e o que sobrevive (n=1, dado de campo H2/H5 segue sendo o gate). Verificado: 69 testes verdes, `rilp run` reproduz 63,4%/FAIL/CONTINUE.
+- **Definição canônica do RILP fixada com Marco** — fábrica de negócios por IA, agnóstica de domínio, produto = negócio pronto pra rodar (legaltech = só o Run #1). Gravada em memória.
+- **Escolhido Caminho A** (RILP como produto/plataforma) para dev.
+- **Validação de mercado em 2 lentes** (nosso time de 4 agentes + Gemini Deep Research) → `docs/research/2026-07-11-rilp-produto-validacao/`. **VEREDITO: NO-GO** no formato agnóstico/self-serve; fatia que sobrevive = up-market/high-ticket. Decisão de pivô pendente (Marco). Ver [DECISIONS.md 2026-07-11](https://github.com/MarcoBolsa/legaltech-research/blob/main/docs/DECISIONS.md).
+- **Avaliado Brownfield Discovery → descartado.** Docs vivos frescos e verificados. Rodar as 10 fases seria retrabalho e alimentaria o anti-padrão diagnosticado (doc em vez de execução).
+- **Adendo pré-Run#0 na RADIOGRAFIA** (consolidado na main, PR #3) — corpo preservado como história; topo marca que Run #0 + teste lado-a-lado + engine aconteceram. Verificado: 69 testes verdes, `rilp run` reproduz 63,4%/FAIL/CONTINUE.
 
 ## ✅ FEITO (sessão 2026-07-04, tarde)
 - **Fase C — RILP Engine executável** entregue em 4 levas (YOLO, model routing §32) e **mergeada na main** (PR #2, commit 3d43431). `engine/` Python: score/gate/trilha de auditoria, domain pack 2-estágios, benchmark harness, runner P0→P2 + CLI `rilp`. 69 testes verdes, ruff limpo. `rilp run` reproduz o Run #0 (63,4%/FAIL/CONTINUE). QA adversarial corrigiu bug HIGH de ponto-flutuante no benchmark.

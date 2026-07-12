@@ -1,0 +1,68 @@
+generated_at: 2026-07-11T22:56:25-03:00
+session_date: 2026-07-11T22:56:25-03:00
+project: legaltech-research
+agent: aiox-master (Orion)
+branch: run-000-legaltech
+pipeline_id: run-000-legaltech
+
+stories_active:
+  - id: "RILP como produto (Caminho A) — validação de mercado"
+    status: "PESQUISA CONCLUÍDA — veredito NO-GO no formato agnóstico; decisão de direção PENDENTE com Marco"
+    last_task: "Análise cruzada das 2 lentes (nosso time + Gemini) → VEREDITO-quadro-fechado.md"
+
+decisions:
+  - "Definição canônica do RILP fixada com Marco: fábrica de negócios operada por IA, produto = negócio pronto pra rodar, AGNÓSTICO de domínio (legaltech = só o Run #1). Pesquisa é fundação, NÃO o produto."
+  - "Descartado Brownfield Discovery (docs vivos frescos). Adendo pré-Run#0 na RADIOGRAFIA consolidado na main (PR #3)."
+  - "Escolhido Caminho A (RILP como produto/plataforma) para dev — mas antes do PRD, rodada de validação de 2 lentes (nosso time de 4 agentes + Gemini Deep Research)."
+  - "VEREDITO da validação: NO-GO no RILP como fábrica agnóstica/self-serve/ticket-baixo/pra-qualquer-pessoa. As 2 lentes convergiram (NO-GO, ambas citaram Builder.ai). Fatia que sobrevive = estreita, high-ticket, B2B, rigor up-market/fiduciário."
+
+files_modified:
+  - docs/research/2026-07-11-rilp-produto-validacao/VEREDITO-quadro-fechado.md (análise cruzada final)
+  - docs/research/2026-07-11-rilp-produto-validacao/nosso-time-sintese.md
+  - docs/research/2026-07-11-rilp-produto-validacao/gemini-deepresearch.md
+  - docs/RADIOGRAFIA-2026-07-04.md (adendo pré-Run#0 — já na main via PR #3)
+  - docs/A-FAZER.md · docs/DECISIONS.md · docs/OPERATIONAL-BLUEPRINT.md
+
+blockers:
+  - "DECISÃO DE PRODUTO PENDENTE (Marco, §37): qual direção após o NO-GO — (1) reposicionar up-market (candidato = wedge de due diligence de M&A do Gemini); (2) RILP como ferramenta interna; (3) outra vertical estreita. NÃO ir pro PRD antes dessa decisão."
+
+next_step: |
+  Marco decide a direção pós-NO-GO entre 3 opções (ver blockers). Recomendação do Orion:
+  direção 1 (reposicionar up-market, wedge de due diligence de M&A) + teste de campo barato
+  de 1 semana ANTES de qualquer PRD — porque as 2 lentes marcaram que mesmo a fatia sobrevivente
+  tem demanda NÃO-validada, e "construir antes de validar" é a doença já diagnosticada na radiografia.
+  Só depois da decisão: ou validação de campo, ou PRD (Spec Pipeline: @pm/Sonnet → @architect/Opus).
+
+resume_prompt: |
+  /AIOX:agents:aiox-master
+  Retomada legaltech-research — continuação da sessão de 2026-07-11.
+
+  CONTEXTO DA SESSÃO DE HOJE (o que aconteceu, na ordem):
+  1. Alinhamos a DEFINIÇÃO CANÔNICA do RILP (memória rilp-definicao-canonica): fábrica de
+     negócios operada por IA, produto = NEGÓCIO PRONTO PRA RODAR, AGNÓSTICO de domínio
+     (legaltech é só o Run #1, NÃO a identidade), pesquisa é a FUNDAÇÃO e não o produto.
+     REGRAS DE FALA: nunca reduzir a "ferramenta de pesquisa"; nunca falar como se RILP=legaltech.
+  2. Marco escolheu o CAMINHO A (RILP como produto/plataforma) para desenvolvimento.
+  3. Antes do PRD, rodamos VALIDAÇÃO DE MERCADO em 2 lentes independentes: nosso time (4 agentes
+     aiox-analyst) + Gemini Deep Research. Resultado consolidado em
+     docs/research/2026-07-11-rilp-produto-validacao/VEREDITO-quadro-fechado.md.
+  4. VEREDITO (as 2 lentes convergiram): NO-GO no RILP como fábrica agnóstica/self-serve/ticket
+     baixo/"pra qualquer pessoa". Última milha + confiança + churn + baseline de US$20 matam esse
+     formato. O rigor (trunfo do RILP) só é pago up-market/fiduciário. Fatia que sobrevive =
+     estreita, high-ticket, B2B, humano no loop.
+
+  ESTADO ATUAL: decisão de produto PENDENTE com Marco (§37). Opções:
+  (1) reposicionar up-market — candidato mais afiado = wedge de DUE DILIGENCE de M&A do Gemini
+      (auditar negócio que já existe e está à venda, p/ Search Funds, US$500-2000/relatório);
+  (2) RILP como ferramenta interna (não vira produto);
+  (3) outra vertical estreita.
+  Recomendação Orion: direção 1 + teste de campo de 1 semana ANTES do PRD (demanda da fatia
+  sobrevivente ainda é NÃO-validada; não repetir "construir antes de validar").
+
+  PRÓXIMO PASSO: pegar a decisão de direção do Marco e, conforme ela, desenhar OU a validação de
+  campo barata OU o Spec Pipeline (PRD @pm/Sonnet → arquitetura @architect/Opus). NÃO escrever
+  código nem PRD antes da decisão.
+
+  Ler primeiro: docs/research/2026-07-11-rilp-produto-validacao/VEREDITO-quadro-fechado.md,
+  docs/A-FAZER.md, e as memórias rilp-definicao-canonica + rilp-produto-validacao-2026-07-11.
+  Branch: run-000-legaltech.

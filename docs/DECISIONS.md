@@ -83,3 +83,28 @@
 **Alternativas descartadas:** Node/TS (isolamento do projeto vence o alinhamento com AIOX); pipeline com chamadas de LLM embutidas (violaria §28 anti-gold-plating — a pesquisa é dos agentes, não do engine).
 
 ---
+
+## [2026-07-11] — Validação de mercado do RILP como produto: NO-GO no formato agnóstico, decisão de pivô pendente
+
+**Contexto:** Após alinhar com Marco a definição canônica do RILP (fábrica de negócios operada por IA, agnóstica de domínio, produto = negócio pronto pra rodar) e escolher o Caminho A (RILP como produto/plataforma), rodamos uma validação de mercado ANTES de qualquer PRD (respeitando §37 e o alerta da radiografia de "validar antes de construir"). Método de duas lentes independentes, mesmo brief: nosso time de 4 agentes aiox-analyst (Sonnet/web) + Gemini Deep Research (rodado por Marco em paralelo). Síntese cruzada em `docs/research/2026-07-11-rilp-produto-validacao/VEREDITO-quadro-fechado.md`.
+
+**Decisão (veredito da pesquisa):** **NO-GO** no RILP como produto "fábrica de negócios agnóstica de domínio, self-serve, ticket baixo, pra qualquer pessoa". As duas lentes convergiram independentemente:
+- Baseline de deep research nativo (~US$20/mês) destrói a percepção de valor no comprador de baixo ticket.
+- "Última milha" (plano ≠ negócio rodando: KYC, constituição jurídica, ativação de ads) é parede estrutural que IA não transpõe sozinha.
+- Churn estrutural (criar negócio é episódico; retenção de IA <US$50/mês é GRR 23%/NRR 32%).
+- Sem dado proprietário = wrapper clonável em semanas.
+- As duas citaram o MESMO case (Builder.ai) como farol do "IA faz o negócio inteiro" que colapsa.
+- O rigor metodológico (trunfo do RILP) só é pago **up-market/fiduciário** — para o founder solo/PME é jargão vazio.
+
+**Distinção-chave registrada:** a evidência empurra contra a própria definição canônica recém-fixada. "Fábrica agnóstica pra qualquer pessoa" é a forma MAIS FRACA do produto. A fatia que sobrevive é o oposto: estreita, high-ticket, B2B, com humano/rigor no loop.
+
+**Divergência entre as lentes (valiosa):** onde atacar a fatia estreita. Gemini recomendou pivô para **due diligence de M&A / auditoria de aquisições** (Search Funds; auditar negócio que já existe e está à venda; US$500–2.000/relatório; rigor vira exigência fiduciária). Nosso time recomendou **build done-for-you numa vertical única com accountability sobre o outcome**. Ambas ainda NÃO-validadas em campo.
+
+**Consequências:**
+- **DECISÃO DE DIREÇÃO PENDENTE com Marco (§37):** (1) reposicionar up-market (candidato = wedge de due diligence); (2) RILP como ferramenta interna; (3) outra vertical estreita.
+- **NÃO ir pro PRD** antes dessa decisão — e, escolhida a direção, rodar teste de campo barato ANTES do PRD (a demanda da fatia sobrevivente é não-validada; construir antes de validar é a doença já diagnosticada).
+- Meta-lição: 2ª vez que a máquina do projeto aponta "valor está em estreito+rigoroso+up-market" (1ª foi o gate do run legaltech travando por falta de CAC de campo).
+
+**Alternativas descartadas:** ir direto ao PRD do Caminho A como definido (as duas lentes acabaram de invalidar o alvo); aceitar o pivô do Gemini como resposta pronta (é hipótese forte mas com demanda não-validada e reencontra o problema de credibilidade-de-outsider do run legaltech).
+
+---
