@@ -2,9 +2,9 @@
 
 > Espinha dorsal visual do projeto. Atualizado a cada story concluída e a cada encerramento de sessão.
 
-**Projeto:** legaltech-research · RILP Run #1 — LegalTech
-**Última atualização:** 2026-06-26
-**Branch ativa:** refundacao/dedup-aiox-claude-md
+**Projeto:** legaltech-research · RILP (Run #1 = LegalTech; produto = agnóstico de domínio)
+**Última atualização:** 2026-07-11 (pós-validação de mercado do RILP-produto)
+**Branch ativa:** run-000-legaltech
 
 ---
 
@@ -379,6 +379,8 @@ flowchart TB
 | Branch refundacao/ → main | 🟡 Em progresso | Pendente, FORA do caminho crítico (DECISIONS 2026-07-04) |
 | P3 → P9 do run LegalTech | 🔒 Aguardando gate | Dependência: G2→3 PASS (experimentos H2/H5) |
 | Domain Pack LegalTech (parcial) | 🔒 Aguardando gate | Nasce no P9; vendável só com ≥2 runs |
+| **Validação de mercado do RILP-produto** | ✅ Done | 2 lentes (nosso time 4 agentes + Gemini) → **NO-GO** no formato agnóstico/self-serve; `docs/research/2026-07-11-rilp-produto-validacao/VEREDITO-quadro-fechado.md` |
+| **Decisão de direção pós-NO-GO** | 🔴 Bloqueado | Marco (§37): reposicionar up-market (wedge due diligence M&A) vs ferramenta interna vs outra vertical |
 
 ---
 
@@ -386,27 +388,30 @@ flowchart TB
 
 ```mermaid
 flowchart TD
-    A["✅ FEITO\nFase C — RILP Engine\nmergeado na main (PR #2)\n69 testes verdes"]:::startend
+    A["✅ FEITO\nValidação de mercado do RILP-produto\n2 lentes (nosso time + Gemini)\nVEREDITO: NO-GO no formato agnóstico"]:::startend
 
-    A --> E["🔴 AGORA — o único caminho\nque muda o veredito 63,4%\nExperimentos de campo\nH2 (unit economics)\nH5 (canal de aquisição)"]:::urgent
+    A --> D{"🔴 DECISÃO DE MARCO (§37)\ndireção pós-NO-GO?"}:::urgent
 
-    E --> F{"Gate 2→3 re-teste\n(alimentar o engine rilp)\nScore ≥ 70%?"}:::gate
-    F -->|PASS| G["⚗️ Run LegalTech\nprossegue P3+\n(decisão de negócio)"]:::p2
+    D -->|Opção 1| O1["Reposicionar UP-MARKET\ncandidato: due diligence de M&A\n(Search Funds, high-ticket)"]:::gate
+    D -->|Opção 2| O2["RILP ferramenta INTERNA\n(não vira produto)"]:::gate
+    D -->|Opção 3| O3["Outra vertical estreita\ndone-for-you + outcome"]:::gate
 
-    B["🟡 Dívidas técnicas do engine\nPiso do gate: arredondado vs estrito\npytest-cov no CI"]:::next
-    I["🟢 Housekeeping\nMerge refundacao/ → main\nvia PR @devops (§0-f)"]:::next
+    O1 --> V["🟡 Teste de campo barato\n1 semana — validar demanda\nANTES de PRD"]:::next
+    O3 --> V
+    V -->|demanda confirmada| P["📝 Spec Pipeline\nPRD @pm/Sonnet → arquitetura @architect/Opus"]:::p2
+    P --> H["🏁 Fim horizonte:\ndireção do RILP-produto decidida\nCOM dado, não achismo"]:::startend
+    O2 --> H
 
-    G --> H["🏁 Fim horizonte:\nRILP validado + entrada\nem legaltech decidida\ncom dado real"]:::startend
+    B["🟢 Dívidas do engine (se seguir produto)\nPiso do gate · pytest-cov CI"]:::next
 
     classDef urgent fill:#D0021B,stroke:#A80017,color:#fff,font-weight:bold
     classDef next fill:#F5A623,stroke:#D4891E,color:#1A1A1A,font-weight:bold
-    classDef gate fill:#FFF9C4,stroke:#F9A825,color:#333,font-weight:bold
-    classDef p1 fill:#4A90D9,stroke:#2E6DA4,color:#fff,font-weight:bold
+    classDef gate fill:#7B68EE,stroke:#5A52D5,color:#fff,font-weight:bold
     classDef p2 fill:#9B59B6,stroke:#8E44AD,color:#fff,font-weight:bold
     classDef startend fill:#2ECC71,stroke:#27AE60,color:#fff,font-weight:bold
 ```
 
 ---
 
-*Blueprint atualizado em 2026-07-04 (tarde, pós-Fase C) por Orion (aiox-master)*
+*Blueprint atualizado em 2026-07-11 (pós-validação de mercado do RILP-produto) por Orion (aiox-master)*
 *Fonte de verdade: https://github.com/MarcoBolsa/legaltech-research/blob/main/docs/OPERATIONAL-BLUEPRINT.md*

@@ -39,4 +39,4 @@ resume_prompt: |
   não de agente; é o único caminho que muda o veredito 63,4%. Dívidas: piso do gate (arredondado vs
   estrito), pytest-cov no CI, branch refundacao/ pendente de merge.
 
-consumed: false
+consumed: true
